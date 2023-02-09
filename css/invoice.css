@@ -1,0 +1,102 @@
+body {
+    background: #ccc;
+    padding: 30px;
+}
+
+.container {
+    width: 21cm;
+    min-height: 29.7cm;
+}
+
+.invoice {
+    width: 21cm;
+    height: 29.7cm;
+    background-color: white;
+    padding: 2cm;
+    margin: 1cm;
+    box-sizing: border-box;
+}
+
+i {
+    width: 15px;
+    height: 15px;
+}
+
+.logofacture {
+    width: 2.5cm;
+}
+
+.document-type {
+    text-align: right;
+    color: #444;
+}
+
+.conditions {
+    font-size: 0.7em;
+    color: #666;
+}
+
+.bottom-page {
+    font-size: 0.7em;
+}
+
+.logofacture {
+    width: 250px;
+    margin-left: -60px;
+    margin-top: -29%;
+    ;
+}
+
+h1,
+.document-type {
+    width: 0%;
+    margin-top: -25px;
+    margin-left: 60%;
+    opacity: 0.4;
+}
+
+.client {
+    margin-left: 70%;
+    margin-top: -30%;
+}
+
+.entreprise {
+    margin-left: 0%;
+    margin-top: -10%;
+}
+
+.conditions {
+    margin-top: 25px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.btnprint {
+    text-decoration: none;
+    background: #32a5e8;
+    color: #fff;
+    padding: 10px 60px;
+    border-radius: 30px;
+    transition: all 0.2s;
+    border-width: 0;
+    border-left-width: 0;
+    position: absolute;
+    right: 100px;
+    bottom: 10%;
+}
+
+.btnprint:hover {
+    transform: translateY(-3px);
+
+}
+
+.btnprint:active {
+    transform: translateY(1px);
+
+}
