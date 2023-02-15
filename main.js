@@ -2,6 +2,7 @@
 
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require('electron')
+const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 
 
@@ -43,3 +44,15 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
+
+
+let db = new sqlite3.Database('./myDatabase.db', (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  console.log('Connected to the database.');
+});
+
+app.on('ready', () => {
+ db.run('CREATE TABLE users (id INT, name TEXT)');
+});
