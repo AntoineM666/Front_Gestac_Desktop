@@ -8,8 +8,6 @@ const {
 const sqlite3 = require('sqlite3').verbose()
 const path = require('path')
 
-
-
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -28,15 +26,10 @@ const createWindow = () => {
   // mainWindow.webContents.openDevTools()
 }
 
-
-
 // Quitter l'application lorsque toutes les fenêtres sont fermées, sauf sur macOS où il est courant pour les applications et leur barre de menu de rester actives jusqu'à ce que l'utilisateur quitte explicitement en utilisant Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
-
-
-
 
 // base de donnée
 
@@ -47,9 +40,7 @@ let db = new sqlite3.Database('./myDatabase.db', (err) => {
   }
   console.log('Connected to the database.');
 
-
-
-
+//condition pour savoir si lutilisateur existe et le redirection associée
   const tableExistsQuery = `SELECT name FROM sqlite_master WHERE type='table' AND name='user';`;
   const getUserQuery = `SELECT * FROM user LIMIT 1;`;
 
@@ -121,22 +112,6 @@ let db = new sqlite3.Database('./myDatabase.db', (err) => {
       }
     }
   });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   app.on('ready', () => {
