@@ -42,9 +42,11 @@ body {
 
 .title {
 	font-size: 32px;
+	margin-left: 60PX;
 	margin-bottom: 5px;
-	color: white;
+	color: #32a5e8;
 	font-family: 'Barlow', sans-serif;
+	text-shadow: -2px -1px 0 #000;
 }
 
 .login-cta {
@@ -62,7 +64,7 @@ body {
 
 .input-flex {
 	display: flex;
-	column-gap: 10px;
+	column-gap: 100px;
 }
 
 .input-flex .input-group:last-child .input-control {
@@ -70,9 +72,11 @@ body {
 }
 
 .input-group {
+	width: 100%;
+	max-width: 600px;
 	display: flex;
 	position: relative;
-	margin-bottom: 1.2em;
+	margin-bottom: 2em;
 	max-height: 49px;
 }
 
@@ -95,7 +99,7 @@ body {
 .input-control {
 	width: 100%;
 	height: 100%;
-	padding: 8px 0 8px 15px;
+	padding: 8px 0 8px 25px;
 	border-radius: 10px 0 0 10px;
 	border: none;
 	font-size: 0.88em;
@@ -114,7 +118,7 @@ body {
 	width: fit-content;
 	cursor: text;
 	color: #bfbfbf;
-	font-size: 0.88em;
+	/* font-size: 0.88em; */
 	border-radius: 10px;
 	transform: translate(15px, -33px);
 	transform-origin: 0 0;
@@ -124,7 +128,7 @@ body {
 .input-control:focus + .input-label,
 .input-control:not(:placeholder-shown) + .input-label {
 	padding: 5px 10px;
-	transform: translate(10px, -65px) scale(0.8);
+	transform: translate(3px, -73px) scale(0.8);
 	background-color: #212121;
 	cursor: default;
 }
@@ -136,11 +140,14 @@ body {
 }
 
 .form-submit {
-	width: 100%;
-	padding: 10px 0;
+	display:block;
+	margin: 0 auto;
+	width: 50%;
+	padding: 10px 0 10px 0;
+	margin-top: 30px;
 	border: none;
 	border-radius: 10px;
-	background-color: #1bc467;
+	background-color: #32a5e8;
 	color: rgb(253, 253, 253);
 	font-family: inherit;
 	font-weight: bold;
@@ -153,12 +160,18 @@ body {
 path{
   color: white;
 }
+
+.card-footer {
+    padding: 20px;
+    text-align: center;
+}
+
 .container{
-  background-color: #808080;
+  background-color: white;
   margin-top: 100px;
   padding-bottom: 20px;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding-right: 100px;
+  padding-left: 100px;
   border-radius: 2%;
   box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }

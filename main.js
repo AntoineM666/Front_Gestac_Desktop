@@ -106,7 +106,7 @@ let db = new sqlite3.Database('./myDatabase.db', (err) => {
               width: 800,
               height: 600
             });
-            mainWindow.loadFile('pages/register.html');
+            mainWindow.loadFile('index.html');
           }
         });
       }

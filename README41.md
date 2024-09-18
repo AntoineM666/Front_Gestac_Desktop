@@ -17,7 +17,7 @@ Installation des dépendance
 ```
 Création du setup d'installation pour win X64 + .exe
 ```bash
-  electron-builder build  
+  npm run build 
 ```
 Lancement du projet
 ```bash

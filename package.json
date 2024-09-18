@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "build": "electron-builder"
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [],
   "author": "Antoine MARIE",
@@ -19,14 +20,15 @@
     "@electron-forge/maker-rpm": "^6.0.4",
     "@electron-forge/maker-squirrel": "^6.0.4",
     "@electron-forge/maker-zip": "^6.0.4",
-    "electron": "^23.0.0",
-    "electron-builder": "^23.6.0",
-    "electron-forge": "^5.2.4",
-    "electron-prebuilt-compile": "8.2.0",
+    "electron": "^32.1.0",
+    "electron-builder": "^25.0.5",
+    "electron-forge": "^2.0.0",
+    "electron-prebuilt-compile": "^1.3.2",
     "electron-rebuild": "^3.2.9"
   },
-  
   "dependencies": {
+    "core-js": "^3.38.1",
+    "dotenv": "^16.4.5",
     "electron-squirrel-startup": "^1.0.0",
     "es6-promise": "^4.2.8",
     "html2canvas": "^1.4.1",
@@ -34,5 +36,4 @@
     "sqlite3": "^5.1.4",
     "uninstall": "^0.0.0"
   }
-  
 }
