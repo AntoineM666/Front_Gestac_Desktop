@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <script src="../js/invoice.js"></script>
+    <!-- <script src="../js/invoice.js"></script> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
         integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -135,7 +135,7 @@
     <!-- facture -->
 
                 <body>
-                   
+                    <button class="toggleButton" id="toggleButton">FACTURE / DEVIS</button>
                     <div class="container">
                         <div class="invoice" id="print">
                             <div class="row">
@@ -143,7 +143,7 @@
                                     <img src="../assets/svg/G.svg" class="logofacture">
                                 </div>
                                 <div class="col-5">
-                                    <h3 class="document-type">FACTURE</h3>
+                                    <h3 class="document-type" id="documentType">FACTURE</h3>
 
                                 </div>
                             </div>
@@ -181,6 +181,7 @@
                                         <th>Quantité</th>
                                         <th>PU HT</th>
                                         <th>Total HT</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="tbody">
@@ -195,26 +196,37 @@
 
                             <!-- le total -->
                             <div class="row">
-                                <div class="col-8"> <i class="fa-regular fa-plus" id="addfield"
-                                        onclick="generate_table()"></i>
+                                <div class="col-8">
+                                    <i class="fa-regular fa-plus" id="addfield" onclick="showDropdown()"></i>
                                 </div>
+
+                                <div id="dropdown" style="display: none;">
+                                    <label for="items">Choisissez une prestation :</label>
+                                    <select id="items" onchange="fillTable()">
+                                        <option value="">Sélectionner une option</option>
+                                        <option value="rapport">Génération des rapports d'activité</option>
+                                        <option value="audit">Audit complet du système</option>
+                                        <option value="formation">Formation des employés</option>
+                                    </select>
+                                </div>
+
                                 <div class="col-4">
                                     <table class="table table-sm text-right">
-
                                         <tr>
                                             <td><strong>Total HT</strong></td>
-                                            <td class="text-right">3 700,00€</td>
+                                            <td class="text-right"><span id="total-ht">0,00€</span></td>
                                         </tr>
                                         <tr>
                                             <td>TVA 20%</td>
-                                            <td class="text-right">740,00€</td>
+                                            <td class="text-right"><span id="tva">0,00€</span></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Total TTC</strong></td>
-                                            <td class="text-right">4 440,00€</td>
+                                            <td class="text-right"><span id="total-ttc">0,00€</span></td>
                                         </tr>
                                     </table>
                                 </div>
+                                
                             </div>
 
                             <p class="conditions">
@@ -266,6 +278,7 @@
     <script src="../js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="../js/datatables-simple-demo.js"></script>
+    <script src="../js/invoice.js"></script>
 </body>
 
 

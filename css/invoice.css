@@ -97,3 +97,23 @@ h1,
     transform: translateY(1px);
 
 }
+
+.toggleButton {
+    text-decoration: none;
+    background: #32a5e8;
+    color: #fff;
+    padding: 10px 60px;
+    border-radius: 30px;
+    transition: all 0.2s;
+    border-width: 0;
+    border-left-width: 0;
+    position: absolute;
+}
+
+.toggleButton:hover {
+    transform: translateY(-3px);
+}
+
+.toggleButton:active {
+    transform: translateY(1px);
+}

@@ -27,9 +27,22 @@ form.addEventListener('submit', (event) => {
    },
    body: JSON.stringify(userData) // Convertir les données en JSON
  })
- .then(response => response.json())
- .then(data => console.log(data))
- .catch(error => console.error('Erreur:', error));
+ .then(response => {
+  if (response.ok) {
+    // Inscription réussie, on redirige vers la page de connexion
+    alert('Inscription réussie');
+    window.location.href = './login.html';
+  } else {
+    return response.json().then(data => {
+      // Gestion des erreurs d'API
+      alert('Erreur lors de l\'inscription : ' + (data.message || 'Vérifiez vos données.'));
+    });
+  }
+})
+.catch(error => {
+  console.error('Erreur:', error);
+  alert('Erreur lors de la soumission. Veuillez réessayer plus tard.');
+});
 });
 
 // submitButton.addEventListener('click', function(event) {
