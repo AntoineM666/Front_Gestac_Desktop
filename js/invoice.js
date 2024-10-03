@@ -107,10 +107,8 @@ function createNewPage() {
             <div class="col-7">
                 <img src="../assets/svg/G.svg" class="logofacture">
             </div>
-            <div class="col-5">
-                <h3 class="document-type">FACTURE P${currentPage}</h3>
-            </div>
         </div>
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -123,6 +121,10 @@ function createNewPage() {
             </thead>
             <tbody id="tbodyPage${currentPage}">
             </tbody>
+        </table>
+
+        <div class="col-4">
+            <table class="table table-sm text-right">
                 <tr>
                     <td><strong>Total HT</strong></td>
                     <td class="text-right"><span id="total-ht">0,00€</span></td>
@@ -135,26 +137,28 @@ function createNewPage() {
                     <td><strong>Total TTC</strong></td>
                     <td class="text-right"><span id="total-ttc">0,00€</span></td>
                 </tr>
-        </table>
-                <p>
-                    En votre aimable règlement
+            </table>
+        </div>
 
-                    Et avec nos remerciements.
+        <p class="conditions">
+            En votre aimable règlement
 
-                    Conditions de paiement : paiement à réception de facture, à 15 jours.
+            Et avec nos remerciements.
 
-                    Aucun escompte consenti pour règlement anticipé.
+            Conditions de paiement : paiement à réception de facture, à 15 jours.
 
-                    Règlement par virement bancaire.
+            Aucun escompte consenti pour règlement anticipé.
 
-                    En cas de retard de paiement, indemnité forfaitaire pour frais de recouvrement : 40
-                    euros (art. L.4413
-                    et L.4416 code du commerce).
-                </p>
+            Règlement par virement bancaire.
 
-                <p>
-                    90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
-                </p>
+            En cas de retard de paiement, indemnité forfaitaire pour frais de recouvrement : 40
+            euros (art. L.4413
+            et L.4416 code du commerce).
+        </p>
+
+        <p>
+            90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
+        </p>
     `;
 
     invoiceContainer.insertAdjacentElement('afterend', newPage);
@@ -178,3 +182,17 @@ function moveExcessRowsToNewPage() {
         });
     }
 }
+
+// Sélectionne le titre et le bouton
+const documentType = document.getElementById('documentType');
+const toggleButton = document.getElementById('toggleButton');
+
+// Ajoute un écouteur d'événements au bouton pour alterner entre FACTURE et DEVIS
+toggleButton.addEventListener('click', () => {
+  if (documentType.textContent === 'FACTURE') {
+    documentType.textContent = 'DEVIS';
+  } else {
+    documentType.textContent = 'FACTURE';
+  }
+});
+
