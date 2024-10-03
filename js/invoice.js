@@ -1,76 +1,87 @@
-// Fonction pour mettre à jour les totaux HT, TVA et TTC
-function updateTotals() {
-    var table = document.getElementById("tbody");
-    var rows = table.getElementsByTagName("tr");
-    var totalHT = 0;
+// Liste des prestations
+let prestations = {
+    "rapport": { description: "Génération des rapports d'activité", puht: 100 },
+    "audit": { description: "Audit complet du système", puht: 300 },
+    "formation": { description: "Formation des employés", puht: 200 }
+};
 
-    // Boucle à travers chaque ligne du tableau pour calculer le total HT
-    for (var i = 0; i < rows.length; i++) {
-        var totalCell = rows[i].getElementsByTagName("td")[3]; // Récupère la cellule du total HT
-        var totalValue = parseFloat(totalCell.textContent.replace('€', '').replace(/\s/g, '').replace(',', '.')); // Convertit en nombre
-        totalHT += totalValue;
-    }
+// Fonctions utilisées pour la pagination et l'affichage
+let ligneCount = 0;
+let currentPage = 1;
+const maxLinesFirstPage = 8;
+const maxLinesFollowingPages = 13;
 
-    // Calcule de la TVA et du total TTC
-    var tva = totalHT * 0.20;
-    var totalTTC = totalHT + tva;
-
-    // Mise à jour des valeurs dans le DOM
-    document.getElementById("total-ht").textContent = totalHT.toFixed(2).replace('.', ',') + "€";
-    document.getElementById("tva").textContent = tva.toFixed(2).replace('.', ',') + "€";
-    document.getElementById("total-ttc").textContent = totalTTC.toFixed(2).replace('.', ',') + "€";
-}
-
-// Affiche la liste déroulante lors du clic sur le bouton "plus"
+// Fonctions pour la pagination
 function showDropdown() {
-    var dropdown = document.getElementById('dropdown');
-    dropdown.style.display = 'block'; // Affiche la liste déroulante
+    const dropdown = document.getElementById("dropdown");
+    dropdown.style.display = dropdown.style.display === "none" ? "block" : "none";
 }
 
-// Remplit le tableau en fonction de l'option sélectionnée
+// Fonction de remplissage du tableau
 function fillTable() {
-    var table = document.getElementById("tbody");
-    var selectedItem = document.getElementById("items").value;
+    const select = document.getElementById("items");
+    const selectedValue = select.value;
 
-    var description = "";
-    var quantity = 1;
-    var unitPrice = 0;
-    var totalPrice = 0;
+    if (selectedValue && prestations[selectedValue]) {
+        const tableBody = document.getElementById("tbody");
 
-    // Données statiques pour chaque option (à remplacer par des appels API plus tard)
-    if (selectedItem === "rapport") {
-        description = "Génération des rapports d'activité";
-        quantity = 4;
-        unitPrice = 800.00;
-    } else if (selectedItem === "audit") {
-        description = "Audit complet du système";
-        quantity = 1;
-        unitPrice = 1200.00;
-    } else if (selectedItem === "formation") {
-        description = "Formation des employés";
-        quantity = 3;
-        unitPrice = 500.00;
+        // Nouvelle ligne
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${prestations[selectedValue].description}</td>
+            <td><input type="number" class="quantite" value="1" min="1" onchange="calculateRow(this)"></td>
+            <td>${prestations[selectedValue].puht.toFixed(2)}€</td>
+            <td class="total-ht">${prestations[selectedValue].puht.toFixed(2)}€</td>
+            <td><i class="fa-solid fa-trash" style="cursor: pointer;" onclick="removeRow(this)"></i></td>
+        `;
+
+        tableBody.appendChild(row);
+        ligneCount++;
+
+        calculateTotal();
+
+        // Gestion de la pagination
+        let maxLines = currentPage === 1 ? maxLinesFirstPage : maxLinesFollowingPages;
+        if (ligneCount > maxLines * currentPage) {
+            createNewPage();
+        }
+
+        // Déplacer les lignes excédentaires vers la nouvelle page si nécessaire
+        moveExcessRowsToNewPage();
+
+        // Réinitialiser la sélection
+        select.value = "";
     }
+}
 
-    totalPrice = quantity * unitPrice;
+// Fonction pour calculer le prix total unitaire
+function calculateRow(input) {
+    const row = input.parentElement.parentElement;
+    const quantity = parseFloat(input.value);
+    const puht = parseFloat(row.cells[2].textContent.replace("€", ""));
+    const totalHtCell = row.querySelector(".total-ht");
 
-    // Génère la nouvelle ligne avec les données et ajoute un bouton "poubelle"
-    var newRow = `<tr>
-                    <td>${description}</td>
-                    <td>${quantity}</td>
-                    <td class="text-right">${unitPrice.toFixed(2)}€</td>
-                    <td class="text-right">${totalPrice.toFixed(2)}€</td>
-                    <td><i class="fa-solid fa-trash" style="cursor: pointer;" onclick="removeRow(this)"></i></td>
-                  </tr>`;
+    const totalHt = (quantity * puht).toFixed(2);
+    totalHtCell.textContent = `${totalHt}€`;
 
-    // Ajoute la nouvelle ligne au tableau
-    table.insertAdjacentHTML('afterbegin', newRow);
+    calculateTotal();
+}
 
-    // Met à jour les totaux
-    updateTotals();
+// Fonction pour calculer le prix total global
+function calculateTotal() {
+    let totalHt = 0;
+    const totalCells = document.querySelectorAll(".total-ht");
 
-    // Masque la liste déroulante après sélection
-    document.getElementById('dropdown').style.display = 'none';
+    totalCells.forEach(cell => {
+        totalHt += parseFloat(cell.textContent.replace("€", ""));
+    });
+
+    const tva = (totalHt * 0.2).toFixed(2);
+    const totalTtc = (totalHt + parseFloat(tva)).toFixed(2);
+
+    document.getElementById("total-ht").textContent = `${totalHt.toFixed(2)}€`;
+    document.getElementById("tva").textContent = `${tva}€`;
+    document.getElementById("total-ttc").textContent = `${totalTtc}€`;
 }
 
 // Fonction pour supprimer une ligne spécifique
@@ -83,34 +94,87 @@ function removeRow(element) {
     updateTotals();
 }
 
+// Fonction pour ajouter une nouvelle page
+function createNewPage() {
+    currentPage++;
 
+    // Créer une nouvelle page pour les lignes supplémentaires
+    const invoiceContainer = document.querySelector(".invoice");
+    const newPage = document.createElement("div");
+    newPage.classList.add("invoice", "new-page");
+    newPage.innerHTML = `
+        <div class="row">
+            <div class="col-7">
+                <img src="../assets/svg/G.svg" class="logofacture">
+            </div>
+            <div class="col-5">
+                <h3 class="document-type">FACTURE P${currentPage}</h3>
+            </div>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Quantité</th>
+                    <th>PU HT</th>
+                    <th>Total HT</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbodyPage${currentPage}">
+            </tbody>
+                <tr>
+                    <td><strong>Total HT</strong></td>
+                    <td class="text-right"><span id="total-ht">0,00€</span></td>
+                </tr>
+                <tr>
+                    <td>TVA 20%</td>
+                    <td class="text-right"><span id="tva">0,00€</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Total TTC</strong></td>
+                    <td class="text-right"><span id="total-ttc">0,00€</span></td>
+                </tr>
+        </table>
+                <p>
+                    En votre aimable règlement
 
+                    Et avec nos remerciements.
 
-// Sélectionne le titre et le bouton
-const documentType = document.getElementById('documentType');
-const toggleButton = document.getElementById('toggleButton');
+                    Conditions de paiement : paiement à réception de facture, à 15 jours.
 
-// Ajoute un écouteur d'événements au bouton pour alterner entre FACTURE et DEVIS
-toggleButton.addEventListener('click', () => {
-  if (documentType.textContent === 'FACTURE') {
-    documentType.textContent = 'DEVIS';
-  } else {
-    documentType.textContent = 'FACTURE';
-  }
-});
+                    Aucun escompte consenti pour règlement anticipé.
 
-//function de telechargement de la facture pdf
-function downloadPDF() {
-    html2canvas(document.getElementById('print'), {
-        scale: 1,
-        windowWidth: 1920,
-        windowHeight: 1080
-    }).then(function (canvas) {
-        var pdf = new jsPDF("p", "mm", "a4");
-        pdf.addImage(canvas.toDataURL("image/png"), "PNG", 0, 0, 211, 298);
-        pdf.save("page.pdf");
-    });
+                    Règlement par virement bancaire.
+
+                    En cas de retard de paiement, indemnité forfaitaire pour frais de recouvrement : 40
+                    euros (art. L.4413
+                    et L.4416 code du commerce).
+                </p>
+
+                <p>
+                    90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
+                </p>
+    `;
+
+    invoiceContainer.insertAdjacentElement('afterend', newPage);
+
+    // Déplacer les lignes excédentaires vers la nouvelle page
+    moveExcessRowsToNewPage();
 }
 
+// Fonction pour déplacer les lignes excédentaires vers la nouvelle page
+function moveExcessRowsToNewPage() {
+    const tableBody = document.getElementById("tbody");
+    const rows = Array.from(tableBody.children);
 
-//suite de
+    let maxLines = currentPage === 2 ? maxLinesFirstPage : maxLinesFollowingPages;
+
+    if (rows.length > maxLines) {
+        const excessRows = rows.slice(maxLines);
+        const newTableBody = document.getElementById(`tbodyPage${currentPage}`);
+        excessRows.forEach(row => {
+            newTableBody.appendChild(row);
+        });
+    }
+}

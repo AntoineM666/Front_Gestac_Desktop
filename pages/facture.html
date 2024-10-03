@@ -52,6 +52,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
+                    <li><a class="dropdown-item" href="./login.html">Login</a></li>
                     <li><a class="dropdown-item" href="#!">Logout</a></li>
                 </ul>
             </li>
@@ -74,45 +75,6 @@
                             Facture
                         </a>
 
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages"
-                            aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Pages
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
-                                    aria-controls="pagesCollapseAuth">
-                                    Authentication
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
-                                    data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="../pages/login.html">Login</a>
-                                        <a class="nav-link" href="../pages/register.html">Register</a>
-                                        <a class="nav-link" href="../pages/password.html">Forgot Password</a>
-                                    </nav>
-                                </div>
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
-                                    aria-controls="pagesCollapseError">
-                                    Error
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                                    data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="../pages/401.html">401 Page</a>
-                                        <a class="nav-link" href="../pages/404.html">404 Page</a>
-                                        <a class="nav-link" href="../pages/500.html">500 Page</a>
-                                    </nav>
-                                </div>
-                            </nav>
-                        </div>
                         <div class="sb-sidenav-menu-heading">Addons</div>
                         <a class="nav-link" href="../pages/charts.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -133,7 +95,6 @@
         <div id="layoutSidenav_content">
             <main>
     <!-- facture -->
-
                 <body>
                     <button class="toggleButton" id="toggleButton">FACTURE / DEVIS</button>
                     <div class="container">
@@ -144,7 +105,6 @@
                                 </div>
                                 <div class="col-5">
                                     <h3 class="document-type" id="documentType">FACTURE</h3>
-
                                 </div>
                             </div>
                             <div class="entreprise">
@@ -158,21 +118,17 @@
                                 </div>
                                 <div class="client">
                                     <br><br><br>
-
                                     <p>
-                                        <strong>client</strong><br>
-                                        Simon vincent <br>
-                                        250 rue de la place 62200 boulogne sur mer<br>
-
-                                        54250 JARNY
+                                        <strong>Client</strong><br>
+                                        Simon Vincent<br>
+                                        250 rue de la place 62200 Boulogne sur Mer<br>
+                                        54250 Jarny
                                     </p>
                                 </div>
                             </div>
                             <br>
                             <br>
-
                             <br>
-
                             <!-- tableau-->
                             <table id="tableId" class="table table-striped">
                                 <thead>
@@ -185,14 +141,22 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tbody">
-
                                     <!-- `<input type="number"></input>`-->
-
-
-
                                 </tbody>
-                            </table>
 
+                                <tr>
+                                    <td><strong>Total HT</strong></td>
+                                    <td class="text-right"><span id="total-ht">0,00€</span></td>
+                                </tr>
+                                <tr>
+                                    <td>TVA 20%</td>
+                                    <td class="text-right"><span id="tva">0,00€</span></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total TTC</strong></td>
+                                    <td class="text-right"><span id="total-ttc">0,00€</span></td>
+                                </tr>
+                            </table>
 
                             <!-- le total -->
                             <div class="row">
@@ -210,7 +174,7 @@
                                     </select>
                                 </div>
 
-                                <div class="col-4">
+                                <!-- <div class="col-4">
                                     <table class="table table-sm text-right">
                                         <tr>
                                             <td><strong>Total HT</strong></td>
@@ -226,8 +190,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                
-                            </div>
+                            </div> -->
 
                             <p class="conditions">
                                 En votre aimable règlement
@@ -245,19 +208,21 @@
                                 et L.4416 code du commerce).
                             </p>
 
-                            <br>
-                            <br>
-
-
                             <p>
                                 90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
-
                             </p>
                         </div>
-     <!-- facture end -->
-                        <button class="btnprint" onclick="downloadPDF()">Convertir en PDF</button>
                     </div>
+                    
+                    
 
+
+
+
+                    
+    <!-- facture end -->
+                    <button class="btnprint" onclick="downloadPDF()">Convertir en PDF</button>
+                </body>
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
