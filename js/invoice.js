@@ -84,6 +84,26 @@ function calculateTotal() {
     document.getElementById("total-ttc").textContent = `${totalTtc}€`;
 }
 
+// Fonction pour mettre à jour les totaux HT, TVA et TTC
+function updateTotals() {
+    var table = document.getElementById("tbody");
+    var rows = table.getElementsByTagName("tr");
+    var totalHT = 0;
+    // Boucle à travers chaque ligne du tableau pour calculer le total HT
+    for (var i = 0; i < rows.length; i++) {
+        var totalCell = rows[i].getElementsByTagName("td")[3]; // Récupère la cellule du total HT
+        var totalValue = parseFloat(totalCell.textContent.replace('€', '').replace(/\s/g, '').replace(',', '.')); // Convertit en nombre
+        totalHT += totalValue;
+    }
+    // Calcule de la TVA et du total TTC
+    var tva = totalHT * 0.20;
+    var totalTTC = totalHT + tva;
+    // Mise à jour des valeurs dans le DOM
+    document.getElementById("total-ht").textContent = totalHT.toFixed(2).replace('.', ',') + "€";
+    document.getElementById("tva").textContent = tva.toFixed(2).replace('.', ',') + "€";
+    document.getElementById("total-ttc").textContent = totalTTC.toFixed(2).replace('.', ',') + "€";
+}
+
 // Fonction pour supprimer une ligne spécifique
 function removeRow(element) {
     // L'élément est l'icône "poubelle", nous devons donc remonter à la ligne <tr>
