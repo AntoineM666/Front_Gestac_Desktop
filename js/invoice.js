@@ -8,8 +8,8 @@ let prestations = {
 // Fonctions utilisées pour la pagination et l'affichage
 let ligneCount = 0;
 let currentPage = 1;
-const maxLinesFirstPage = 8;
-const maxLinesFollowingPages = 13;
+const maxLinesFirstPage = 10;
+const maxLinesFollowingPages = 10;
 
 // Fonctions pour la pagination
 function showDropdown() {
@@ -123,22 +123,6 @@ function createNewPage() {
             </tbody>
         </table>
 
-        <div class="col-4">
-            <table class="table table-sm text-right">
-                <tr>
-                    <td><strong>Total HT</strong></td>
-                    <td class="text-right"><span id="total-ht">0,00€</span></td>
-                </tr>
-                <tr>
-                    <td>TVA 20%</td>
-                    <td class="text-right"><span id="tva">0,00€</span></td>
-                </tr>
-                <tr>
-                    <td><strong>Total TTC</strong></td>
-                    <td class="text-right"><span id="total-ttc">0,00€</span></td>
-                </tr>
-            </table>
-        </div>
 
         <p class="conditions">
             En votre aimable règlement
@@ -165,6 +149,24 @@ function createNewPage() {
 
     // Déplacer les lignes excédentaires vers la nouvelle page
     moveExcessRowsToNewPage();
+
+    // Appeler la fonction pour déplacer la balise row
+    moveRowToNewPage(newPage);
+}
+
+// Fonction pour déplacer la balise row sous la table de la nouvelle page
+function moveRowToNewPage(newPage) {
+    const row = document.querySelector(".row2");  // Sélectionner la balise .row
+
+    if (row) {
+        // Sélectionner la table de la nouvelle page
+        const newTable = newPage.querySelector("table");
+
+        if (newTable) {
+            // Déplacer la balise .row juste après la nouvelle table
+            newTable.insertAdjacentElement('afterend', row);
+        }
+    }
 }
 
 // Fonction pour déplacer les lignes excédentaires vers la nouvelle page
