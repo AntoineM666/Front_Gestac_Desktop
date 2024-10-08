@@ -8,8 +8,8 @@ let prestations = {
 // Fonctions utilisées pour la pagination et l'affichage
 let ligneCount = 0;
 let currentPage = 1;
-const maxLinesFirstPage = 10;
-const maxLinesFollowingPages = 10;
+const maxLinesFirstPage = 13;
+const maxLinesFollowingPages = 17;
 
 // Fonctions pour la pagination
 function showDropdown() {
@@ -32,7 +32,11 @@ function fillTable() {
             <td><input type="number" class="quantite" value="1" min="1" onchange="calculateRow(this)"></td>
             <td>${prestations[selectedValue].puht.toFixed(2)}€</td>
             <td class="total-ht">${prestations[selectedValue].puht.toFixed(2)}€</td>
-            <td><i class="fa-solid fa-trash" style="cursor: pointer;" onclick="removeRow(this)"></i></td>
+            <td>
+                <span class="material-icons" style="cursor: pointer; font-size: 13px; color: #c50a0a" onclick="removeRow(this)">
+                    backspace
+                </span>
+            </td>
         `;
 
         tableBody.appendChild(row);
@@ -86,33 +90,82 @@ function calculateTotal() {
 
 // Fonction pour mettre à jour les totaux HT, TVA et TTC
 function updateTotals() {
-    var table = document.getElementById("tbody");
-    var rows = table.getElementsByTagName("tr");
     var totalHT = 0;
-    // Boucle à travers chaque ligne du tableau pour calculer le total HT
-    for (var i = 0; i < rows.length; i++) {
-        var totalCell = rows[i].getElementsByTagName("td")[3]; // Récupère la cellule du total HT
-        var totalValue = parseFloat(totalCell.textContent.replace('€', '').replace(/\s/g, '').replace(',', '.')); // Convertit en nombre
-        totalHT += totalValue;
-    }
-    // Calcule de la TVA et du total TTC
+    var totalCells = document.querySelectorAll(".total-ht");
+
+    totalCells.forEach(cell => {
+        totalHT += parseFloat(cell.textContent.replace('€', '').replace(/\s/g, '').replace(',', '.')); // Conversion en nombre
+    });
+
     var tva = totalHT * 0.20;
     var totalTTC = totalHT + tva;
+
     // Mise à jour des valeurs dans le DOM
     document.getElementById("total-ht").textContent = totalHT.toFixed(2).replace('.', ',') + "€";
     document.getElementById("tva").textContent = tva.toFixed(2).replace('.', ',') + "€";
     document.getElementById("total-ttc").textContent = totalTTC.toFixed(2).replace('.', ',') + "€";
 }
 
+
 // Fonction pour supprimer une ligne spécifique
 function removeRow(element) {
-    // L'élément est l'icône "poubelle", nous devons donc remonter à la ligne <tr>
     var row = element.parentNode.parentNode;
-    row.parentNode.removeChild(row); // Supprime la ligne du tableau
+    var pageBody = row.parentNode;
+    
+    // Supprimer la ligne du tableau
+    row.parentNode.removeChild(row);
 
-    // Met à jour les totaux après la suppression
+    // Mettre à jour le compteur global de lignes
+    ligneCount--;
+
+    // Vérifier et remonter les lignes des pages suivantes si nécessaire
+    moveRowsToPreviousPages();
+
+    // Supprimer la page si elle est vide
+    removeEmptyPages();
+
+    // Mettre à jour les totaux après la suppression
     updateTotals();
 }
+
+// Fonction pour déplacer les lignes excédentaires des pages suivantes vers la page courante
+function moveRowsToPreviousPages() {
+    let maxLines = currentPage === 1 ? maxLinesFirstPage : maxLinesFollowingPages;
+    let pages = document.querySelectorAll(".invoice");
+
+    for (let i = 0; i < pages.length; i++) {
+        let tableBody = pages[i].querySelector("tbody");
+        let rows = Array.from(tableBody.children);
+        
+        if (rows.length < maxLines && i < pages.length - 1) {
+            let nextPageBody = pages[i + 1].querySelector("tbody");
+            let firstRowNextPage = nextPageBody.children[0];
+            
+            if (firstRowNextPage) {
+                tableBody.appendChild(firstRowNextPage);
+            }
+        }
+    }
+}
+
+// Fonction pour supprimer les pages qui ne contiennent plus de lignes
+function removeEmptyPages() {
+    let pages = document.querySelectorAll(".invoice");
+
+    for (let i = pages.length - 1; i >= 0; i--) {
+        let tableBody = pages[i].querySelector("tbody");
+        if (tableBody.children.length === 0 && i > 0) {
+            // Avant de supprimer la page, déplacer la balise row vers la page précédente
+            moveRowBackToPreviousPage();
+
+            // Supprimer la page uniquement si ce n'est pas la première
+            pages[i].remove();
+            currentPage--; // Réduire le compteur de pages
+        }
+    }
+}
+
+
 
 // Fonction pour ajouter une nouvelle page
 function createNewPage() {
@@ -130,13 +183,13 @@ function createNewPage() {
         </div>
         
         <table class="table table-striped">
-            <thead>
+            <thead class="table-entete">
                 <tr>
-                    <th>Description</th>
+                    <th class="bord1">Description</th>
                     <th>Quantité</th>
                     <th>PU HT</th>
                     <th>Total HT</th>
-                    <th></th>
+                    <th class="bord2"></th>
                 </tr>
             </thead>
             <tbody id="tbodyPage${currentPage}">
@@ -189,6 +242,28 @@ function moveRowToNewPage(newPage) {
     }
 }
 
+// Fonction pour déplacer la balise row vers la page précédente
+function moveRowBackToPreviousPage() {
+    const row = document.querySelector(".row2");  // Sélectionner la balise .row
+
+    if (row) {
+        // Récupérer toutes les pages
+        const pages = document.querySelectorAll(".invoice");
+        // Vérifier que nous ne sommes pas sur la première page
+        if (currentPage > 1) {
+            // Sélectionner la page précédente
+            const previousPage = pages[currentPage - 2]; // -2 car currentPage est basé sur 1
+            const previousTable = previousPage.querySelector("table");
+
+            if (previousTable) {
+                // Déplacer la balise .row juste après la table de la page précédente
+                previousTable.insertAdjacentElement('afterend', row);
+            }
+        }
+    }
+}
+
+
 // Fonction pour déplacer les lignes excédentaires vers la nouvelle page
 function moveExcessRowsToNewPage() {
     const tableBody = document.getElementById("tbody");
@@ -217,4 +292,3 @@ toggleButton.addEventListener('click', () => {
     documentType.textContent = 'FACTURE';
   }
 });
-
