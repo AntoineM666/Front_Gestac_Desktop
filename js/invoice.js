@@ -172,7 +172,7 @@ function createNewPage() {
     currentPage++;
 
     // Créer une nouvelle page pour les lignes supplémentaires
-    const invoiceContainer = document.querySelector(".invoice");
+    const invoiceContainer = document.querySelector(".invoice:last-child");
     const newPage = document.createElement("div");
     newPage.classList.add("invoice", "new-page");
     newPage.innerHTML = `
