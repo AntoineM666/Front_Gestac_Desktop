@@ -1,0 +1,111 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #CCC;
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 20px; */
+}
+
+header {
+    padding: 45px 0;
+    width: 100%;
+    position: fixed;
+    background-color: #32a5e8;
+    text-align: center;
+}
+
+.company-name {
+    color: #ffffff;
+    margin: 0;;
+}
+
+.main-content {
+    display: flex;
+    width: 98%;
+    /* max-width: 1200px; */
+}
+
+/* Banderole sur la gauche */
+.sidebar {
+    background-color: #343a40;
+    padding: 20px;
+    width: 15%;
+    border-radius: 5px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.logoprofil {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.info p {
+    margin: 5px 0;
+}
+
+/* Onglets */
+.tabs {
+    /* display: flex; */
+    margin-bottom: -1px; /* Faire se fondre avec le conteneur */
+    margin-right: 69em;
+    margin-top: 20em;
+}
+
+.tablink {
+    background-color: #343a40;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-right: 5px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    position: relative;
+    z-index: 1; /* Superposition sur le conteneur */
+    /* top: 5px; Effet onglet relevé */
+}
+
+.tablink:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.tablink.active {
+    background-color: #32a5e8;
+    color: white;
+    top: 0;
+    z-index: 2;
+}
+
+/* Conteneur de contenu */
+.content-container {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 1px solid #bfbfbf;
+    margin-top: 0; /* Ajustement pour que le conteneur suive immédiatement les onglets */
+}
+
+.tabcontent {
+    display: none;
+}
+
+.tabcontent:first-of-type {
+    display: block;
+}
+
