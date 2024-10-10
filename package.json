@@ -33,7 +33,6 @@
     "es6-promise": "^4.2.8",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
-    "sqlite3": "^5.1.4",
     "uninstall": "^0.0.0"
   }
 }
