@@ -1,47 +1,38 @@
+/* Styles par défaut (bureau / grands écrans) */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #CCC;
+    background-color: white;
+    font-family: 'Poppins', sans-serif;
 }
 
 .page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* padding: 20px; */
-}
-
-header {
-    padding: 45px 0;
-    width: 100%;
-    position: fixed;
-    background-color: #32a5e8;
-    text-align: center;
-}
-
-.company-name {
-    color: #ffffff;
-    margin: 0;;
 }
 
 .main-content {
     display: flex;
-    width: 98%;
-    /* max-width: 1200px; */
+    width: 55%;
 }
 
 /* Banderole sur la gauche */
 .sidebar {
     background-color: #343a40;
     padding: 20px;
-    width: 15%;
+    width: 35%;
     border-radius: 5px;
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-right: 20px;
+    box-shadow: 5px 0 5px 0 #ccc;
+}
+
+.info {
+    margin-bottom: 7em;
 }
 
 .logoprofil {
@@ -55,10 +46,9 @@ header {
 
 /* Onglets */
 .tabs {
-    /* display: flex; */
-    margin-bottom: -1px; /* Faire se fondre avec le conteneur */
-    margin-right: 69em;
-    margin-top: 20em;
+    margin-bottom: -1px;
+    margin-right: -8em;
+    margin-top: 10em;
 }
 
 .tablink {
@@ -73,11 +63,10 @@ header {
     border-top-right-radius: 10px;
     position: relative;
     z-index: 1; /* Superposition sur le conteneur */
-    /* top: 5px; Effet onglet relevé */
+    box-shadow: 5px 0 5px 0 #ccc;
 }
 
 .tablink:hover {
-    background-color: #007bff;
     color: white;
 }
 
@@ -98,7 +87,8 @@ header {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border: 1px solid #bfbfbf;
-    margin-top: 0; /* Ajustement pour que le conteneur suive immédiatement les onglets */
+    margin-top: 0;
+    box-shadow: 5px 0 5px 0 #ccc;
 }
 
 .tabcontent {
@@ -109,3 +99,69 @@ header {
     display: block;
 }
 
+/* -------- Media Queries -------- */
+
+/* Pour les écrans de taille moyenne (tablettes et petits écrans) */
+@media (max-width: 1024px) {
+    .main-content {
+        width: 90%;
+    }
+
+    .sidebar {
+        width: 30%; /* Réduit la taille de la sidebar */
+    }
+
+    .tabs {
+        margin-right: 0; /* Ajuste la position des onglets */
+        margin-top: 5em;
+    }
+
+    .content-container {
+        width: 65%;
+    }
+}
+
+/* Pour les écrans plus petits (mobiles en mode portrait) */
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column; /* Place la sidebar en haut et le contenu en bas */
+        width: 100%;
+    }
+
+    .sidebar {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px; /* Ajoute un espacement en bas de la sidebar */
+    }
+
+    .content-container {
+        width: 100%; /* Le contenu prend toute la largeur */
+    }
+
+    .tabs {
+        margin-right: 0;
+        margin-top: 2em;
+        text-align: center; /* Centre les onglets sur les petits écrans */
+    }
+
+    .tablink {
+        padding: 10px; /* Réduit la taille des boutons onglets pour les petits écrans */
+        width: 100%; /* Chaque bouton prend toute la largeur */
+    }
+}
+
+/* Pour les très petits écrans (mobiles très petits) */
+@media (max-width: 480px) {
+    .sidebar {
+        padding: 15px;
+    }
+
+    .content-container {
+        padding: 15px;
+    }
+
+    .tablink {
+        padding: 8px;
+        font-size: 14px; /* Diminue la taille de la police des onglets */
+    }
+}
