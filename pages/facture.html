@@ -1,251 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <!-- <script src="../js/invoice.js"></script> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
-        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Tables - SB Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="../css/styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
-    <script  src="../node_modules/jspdf/dist/jspdf.min.js"></script>
-    <link rel="stylesheet" href="../css/invoice.css">
+    <head>
+        <!-- <script src="../js/invoice.js"></script> -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Tables - SB Admin</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+        <link href="../css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+        <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
+        <script  src="../node_modules/jspdf/dist/jspdf.min.js"></script>
+        <link rel="stylesheet" href="../css/invoice.css">
 
-</head>
+    </head>
 
-<body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="../index.html">
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <!-- Navbar Brand-->
+            <a class="navbar-brand ps-3" href="../index.html">
 
-            <img class="logo" src="../assets/svg/white.svg" alt="gestac logo">
+                <img class="logo" src="../assets/svg/white.svg" alt="gestac logo">
 
-        </a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-                    aria-describedby="btnNavbarSearch" />
-                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
-                        class="fas fa-search"></i></button>
+            </a>
+            <!-- Sidebar Toggle-->
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                    class="fas fa-bars"></i></button>
+            <!-- Navbar Search-->
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                        aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                            class="fas fa-search"></i></button>
+                </div>
+            </form>
+            <!-- Navbar-->
+            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Paramètres</a></li>
+                            <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" href="./profil.html">Mon profil</a></li>
+                            <li><a class="dropdown-item" href="./login.html">Connection</a></li>
+                            <li><a class="dropdown-item" href="#!">déconnection</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Core</div>
+                            <a class="nav-link" href="../index.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Dashboard
+                            </a>
+
+                            <div class="sb-sidenav-menu-heading">outils</div>
+                            <a class="nav-link" href="./facture.html">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                                Facture
+                            </a>
+
+                            <div class="sb-sidenav-menu-heading">Addons</div>
+                            <a class="nav-link" href="../pages/charts.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                Charts
+                            </a>
+                            <a class="nav-link" href="../pages/tables.html">
+                                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                                Tables
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        Start Bootstrap
+                    </div>
+                </nav>
             </div>
-        </form>
-        <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#!">Paramètres</a></li>
-                        <li><a class="dropdown-item" href="#!">Activity Log</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" href="./profil.html">Mon profil</a></li>
-                        <li><a class="dropdown-item" href="./login.html">Connection</a></li>
-                        <li><a class="dropdown-item" href="#!">déconnection</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-    <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="../index.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
+            <div id="layoutSidenav_content">
+                <main>
+        <!-- facture -->
+                    <body>
+                        <button class="toggleButton" id="toggleButton">FACTURE / DEVIS</button>
+                        <div class="container">
+                            <div class="invoice" id="print">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <img src="../assets/svg/G.svg" class="logofacture">
+                                    </div>
+                                    <div class="col-5">
+                                        <h3 class="document-type" id="documentType">FACTURE</h3>
+                                    </div>
+                                </div>
+                                <div class="entreprise" style="margin-block-end: -25px;">
+                                    <div class="col-7">
+                                        <p>
+                                            <strong>Gestac</strong><br>
+                                            6B Rue Aux-Saussaies-Des-Dames<br>
+                                            57950 MONTIGNY-LES-METZ
+                                            <p><strong>N°90T-17-01-0123</strong></p>
+                                        </p>
+                                    </div>
+                                    <div class="client">
+                                        <br><br><br>
+                                        <p>
+                                            <strong>Client</strong><br>
+                                            Simon Vincent<br>
+                                            250 rue de la place 62200 Boulogne sur Mer<br>
+                                            54250 Jarny
+                                        </p>
+                                    </div>
+                                </div>
+                                <br>
+                                <br>
+                                <br>
+                                <!-- tableau-->
+                                <table id="tableId" class="table table-striped">
+                                    <thead class="table-entete">
+                                        <tr>
+                                            <th class="bord1">Description</th>
+                                            <th>Quantité</th>
+                                            <th>PU HT</th>
+                                            <th>Total HT</th>
+                                            <th class="bord2"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+                                        <!-- `<input type="number"></input>`-->
+                                    </tbody>
 
-                        <div class="sb-sidenav-menu-heading">outils</div>
-                        <a class="nav-link" href="./facture.html">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
-                            Facture
-                        </a>
-
-                        <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="../pages/charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
-                        </a>
-                        <a class="nav-link" href="../pages/tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
-                        </a>
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
-                </div>
-            </nav>
-        </div>
-        <div id="layoutSidenav_content">
-            <main>
-    <!-- facture -->
-                <body>
-                    <button class="toggleButton" id="toggleButton">FACTURE / DEVIS</button>
-                    <div class="container">
-                        <div class="invoice" id="print">
-                            <div class="row">
-                                <div class="col-7">
-                                    <img src="../assets/svg/G.svg" class="logofacture">
-                                </div>
-                                <div class="col-5">
-                                    <h3 class="document-type" id="documentType">FACTURE</h3>
-                                </div>
-                            </div>
-                            <div class="entreprise" style="margin-block-end: -25px;">
-                                <div class="col-7">
-                                    <p>
-                                        <strong>Gestac</strong><br>
-                                        6B Rue Aux-Saussaies-Des-Dames<br>
-                                        57950 MONTIGNY-LES-METZ
-                                        <p><strong>N°90T-17-01-0123</strong></p>
-                                    </p>
-                                </div>
-                                <div class="client">
-                                    <br><br><br>
-                                    <p>
-                                        <strong>Client</strong><br>
-                                        Simon Vincent<br>
-                                        250 rue de la place 62200 Boulogne sur Mer<br>
-                                        54250 Jarny
-                                    </p>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            <br>
-                            <!-- tableau-->
-                            <table id="tableId" class="table table-striped">
-                                <thead class="table-entete">
-                                    <tr>
-                                        <th class="bord1">Description</th>
-                                        <th>Quantité</th>
-                                        <th>PU HT</th>
-                                        <th>Total HT</th>
-                                        <th class="bord2"></th>
+                                    <!-- <tr>
+                                        <td><strong>Total HT</strong></td>
+                                        <td class="text-right"><span id="total-ht">0,00€</span></td>
                                     </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                    <!-- `<input type="number"></input>`-->
-                                </tbody>
+                                    <tr>
+                                        <td>TVA 20%</td>
+                                        <td class="text-right"><span id="tva">0,00€</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total TTC</strong></td>
+                                        <td class="text-right"><span id="total-ttc">0,00€</span></td>
+                                    </tr> -->
+                                </table>
 
-                                <!-- <tr>
-                                    <td><strong>Total HT</strong></td>
-                                    <td class="text-right"><span id="total-ht">0,00€</span></td>
-                                </tr>
-                                <tr>
-                                    <td>TVA 20%</td>
-                                    <td class="text-right"><span id="tva">0,00€</span></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Total TTC</strong></td>
-                                    <td class="text-right"><span id="total-ttc">0,00€</span></td>
-                                </tr> -->
-                            </table>
+                                <!-- le total -->
+                                <div class="row2">
+                                    <div class="col-8">
+                                        <i class="fa-regular fa-plus" id="addfield" onclick="showDropdown()"></i>
+                                    </div>
 
-                            <!-- le total -->
-                            <div class="row2">
-                                <div class="col-8">
-                                    <i class="fa-regular fa-plus" id="addfield" onclick="showDropdown()"></i>
+                                    <div id="dropdown" style="display: none;">
+                                        <label for="items">Choisissez une prestation :</label>
+                                        <select id="items" onchange="fillTable()">
+                                            <option value="">Sélectionner une option</option>
+                                            <option value="rapport">Génération des rapports d'activité</option>
+                                            <option value="audit">Audit complet du système</option>
+                                            <option value="formation">Formation des employés</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <table class="table table-sm text-right">
+                                            <tr>
+                                                <td><strong>Total HT</strong></td>
+                                                <td class="text-right"><span id="total-ht">0,00€</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>TVA 20%</td>
+                                                <td class="text-right"><span id="tva">0,00€</span></td>
+                                            </tr>
+                                            <tr class="total">
+                                                <td><strong>Total TTC</strong></td>
+                                                <td class="text-right"><span id="total-ttc">0,00€</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
                                 </div>
 
-                                <div id="dropdown" style="display: none;">
-                                    <label for="items">Choisissez une prestation :</label>
-                                    <select id="items" onchange="fillTable()">
-                                        <option value="">Sélectionner une option</option>
-                                        <option value="rapport">Génération des rapports d'activité</option>
-                                        <option value="audit">Audit complet du système</option>
-                                        <option value="formation">Formation des employés</option>
-                                    </select>
-                                </div>
+                                <p class="conditions">
+                                    En votre aimable règlement
 
-                                <div class="col-4">
-                                    <table class="table table-sm text-right">
-                                        <tr>
-                                            <td><strong>Total HT</strong></td>
-                                            <td class="text-right"><span id="total-ht">0,00€</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>TVA 20%</td>
-                                            <td class="text-right"><span id="tva">0,00€</span></td>
-                                        </tr>
-                                        <tr class="total">
-                                            <td><strong>Total TTC</strong></td>
-                                            <td class="text-right"><span id="total-ttc">0,00€</span></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                                    Et avec nos remerciements.
+
+                                    Conditions de paiement : paiement à réception de facture, à 15 jours.
+
+                                    Aucun escompte consenti pour règlement anticipé.
+
+                                    Règlement par virement bancaire.
+
+                                    En cas de retard de paiement, indemnité forfaitaire pour frais de recouvrement : 40
+                                    euros (art. L.4413
+                                    et L.4416 code du commerce).
+                                </p>
+
+                                <p>
+                                    90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
+                                </p>
                             </div>
+                        </div>
+                        
+                        
 
-                            <p class="conditions">
-                                En votre aimable règlement
 
-                                Et avec nos remerciements.
 
-                                Conditions de paiement : paiement à réception de facture, à 15 jours.
 
-                                Aucun escompte consenti pour règlement anticipé.
-
-                                Règlement par virement bancaire.
-
-                                En cas de retard de paiement, indemnité forfaitaire pour frais de recouvrement : 40
-                                euros (art. L.4413
-                                et L.4416 code du commerce).
-                            </p>
-
-                            <p>
-                                90TECH SAS - N° SIRET 80897753200015 RCS METZ<br>
-                            </p>
+                        
+        <!-- facture end -->
+                        <button class="btnprint" onclick="downloadPDF()">Convertir en PDF</button>
+                    </body>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                            <div>
+                                <a href="#">Privacy Policy</a>
+                                &middot;
+                                <a href="#">Terms &amp; Conditions</a>
+                            </div>
                         </div>
                     </div>
-                    
-                    
-
-
-
-
-                    
-    <!-- facture end -->
-                    <button class="btnprint" onclick="downloadPDF()">Convertir en PDF</button>
-                </body>
-            </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+                </footer>
+            </div>
         </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
-    <script src="../js/scripts.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="../js/datatables-simple-demo.js"></script>
-    <script src="../js/invoice.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+        </script>
+        <script src="../js/scripts.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+        <script src="../js/datatables-simple-demo.js"></script>
+        <script src="../js/invoice.js"></script>
+    </body>
 
 
 </html>
