@@ -24,3 +24,7 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+
+
+//// logout fetch///
