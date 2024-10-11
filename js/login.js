@@ -20,13 +20,10 @@ Form_Login.addEventListener('submit', async (event) => {
 
     try {
         const res = await fetch(`${APIURL}/auth`, options);  // Utiliser des backticks ici
-        const data = await res.json();  // Attendre la réponse JSON
+
 
         if (res.status === 200) {
-            alert('Connexion réussie');
-            // const expirationDate = new Date(Date.now() + 3600000); // 1 heure en millisecondes
-            // document.cookie = `BEARER=${data.token}; expires=${expirationDate.toUTCString()}; path=/; secure; samesite=Lax`;
-            console.log(data); // Vous pouvez traiter les données ici si nécessaire
+            window.location.href = 'http://127.0.0.1:5500/';
         } else {
             alert('Identifiant ou mot de passe incorrect');
         }

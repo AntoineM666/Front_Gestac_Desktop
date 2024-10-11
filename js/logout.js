@@ -12,18 +12,14 @@ function logout() {
     // Envoyer la requête de déconnexion
     fetch('http://localhost:8080/api/logout', options)
         .then(response => {
-            if (!response.ok) {
+            if (response.ok) {
+                window.location.href = 'http://127.0.0.1:5500/pages/login.html';
+            }
+            elsif(!response.ok)
+            {
                 throw new Error('Erreur lors de la déconnexion : ' + response.statusText);
             }
-            return response.json(); // Traitez les données retournées par le serveur si nécessaire
         })
-        .then(data => {
-            console.log('Déconnexion réussie:', data);
-            // Vous pouvez rediriger l'utilisateur ou faire d'autres actions ici
-            window.location.href = '/login'; // Redirige vers la page de connexion par exemple
-        })
-        .catch(error => {
-            console.error('Erreur:', error); // Gestion des erreurs
-        });
+        ;
 }
 

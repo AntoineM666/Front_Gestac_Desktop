@@ -26,4 +26,30 @@ window.addEventListener('DOMContentLoaded', event => {
 });
 
 
+///// affichage du login de l'utilisateur si déjà connecté  en cookie avec un jwt/////
 
+// Fonction pour vérifier si le cookie BEARER HttpOnly est envoyé avec la requête
+async function checkHttpOnlyCookie() {
+    try {
+      // Effectue une requête à une route protégée de ton API ou serveur
+      const response = await fetch('http://localhost:8080/api/protected', {
+        method: 'GET',
+        credentials: 'include' // Les cookies (même HttpOnly) seront envoyés automatiquement
+      });
+  
+      // Si la réponse est 200, cela signifie que le serveur a accepté le cookie
+      if (response.ok) {
+
+        console.log('Le cookie BEARER HttpOnly est présent et valide.');
+        document.getElementById('login').style.display = 'none';
+
+      } else {
+        
+        console.log('veuillez vous connecter pour accéder à cette page.');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification du cookie BEARER HttpOnly:', error);
+    }
+  }
+  
+  checkHttpOnlyCookie();
