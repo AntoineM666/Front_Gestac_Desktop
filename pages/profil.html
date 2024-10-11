@@ -98,56 +98,85 @@
          <!------------------PROFIL début----------------------->
 
 
-         <div class="page-container">
-        
-            <!-- Onglets placés au-dessus du conteneur -->
-                <div class="tabs">
-                    <button class="tablink active" onclick="openTab(event, 'factures')">Template</button>
-                    <button class="tablink" onclick="openTab(event, 'prestations')">Prestations</button>
-                    <button class="tablink" onclick="openTab(event, 'clients')">Clients</button>
-                    <button class="tablink" onclick="openTab(event, 'devis')">Devis</button>
-                </div>
-                
-            <!-- Conteneur pour le contenu principal avec sidebar et contenu -->
-            <div class="main-content">
+            <div class="page-container">
+            
+                <!-- Onglets placés au-dessus du conteneur -->
+                    <div class="tabs">
+                        <button class="tablink active" onclick="openTab(event, 'templateFactures')">Template</button>
+                        <button class="tablink" onclick="openTab(event, 'prestations')">Prestations</button>
+                        <button class="tablink" onclick="openTab(event, 'clients')">Clients</button>
+                        <!-- <button class="tablink" onclick="openTab(event, 'devis')">Devis</button> -->
+                    </div>
+                    
+                <!-- Conteneur pour le contenu principal avec sidebar et contenu -->
+                <div class="main-content">
 
-                
+                    
 
-                <!-- Conteneur pour la banderole avec les informations utilisateur -->
-                <div class="sidebar">
-                    <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil">
-                    <div class="info">
-                        <p><strong>Nom:</strong> Jean</p>
-                        <p><strong>Prénom:</strong> Dupont</p>
-                        <p><strong>Nom de l'entreprise:</strong> Exemple S.A.R.L.</p>
-                        <p><strong>Adresse:</strong> 123 Rue de l'Exemple, Paris</p>
-                        <p><strong>N° SIREN:</strong> 123 456 789</p>
-                        <p><strong>N° SIRET:</strong> 123 456 789 00012</p>
-                        <p><strong>Email:</strong> jean.dupont@example.com</p>
-                        <p><strong>Téléphone:</strong> 0123456789</p>
+                    <!-- Conteneur pour la banderole avec les informations utilisateur -->
+                    <div class="sidebar">
+                        <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil" id="userLogo">
+                        <div class="info" id="userInfo">
+                            <p><strong>Nom</strong> </p>
+                            <p><strong>Prénom</strong> </p>
+                            <p><strong>Nom de l'entreprise</strong></p>
+                            <p><strong>Adresse</strong></p>
+                            <p><strong>N° SIREN</strong></p>
+                            <p><strong>N° SIRET</strong></p>
+                            <p><strong>Email</strong></p>
+                            <p><strong>Téléphone</strong></p>
+                        </div>
+                        <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
+                        <button class="btn-change-logo" id="changeLogoButton" style="display: none;" onclick="triggerLogoInput()">Changer le logo</button>
+                        <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" />
                     </div>
-                </div>
-                <!-- Conteneur pour le contenu des factures/devis -->
-                <div class="content-container">
-                    <div class="tabcontent" id="factures">
-                        <h2>Template de facture/devis</h2>
-                        <p>Contenu des factures ici...</p>
-                    </div>
-                    <div class="tabcontent" id="devis" style="display:none;">
-                        <h2>Devis</h2>
-                        <p>Contenu des devis ici...</p>
-                    </div>
-                    <div class="tabcontent" id="prestations" style="display:none;">
-                        <h2>Prestations</h2>
-                        <p>Contenu des prestations ici...</p>
-                    </div>
-                    <div class="tabcontent" id="clients" style="display:none;">
-                        <h2>Clients</h2>
-                        <p>Contenu des clients ici...</p>
+                    <!-- Conteneur pour le contenu des factures/devis -->
+                    <div class="content-container">
+                        <div class="tabcontent" id="templateFactures">
+                            <h2>Template de facture/devis</h2>
+                            <p>Contenu des factures ici...</p>
+                        </div>
+                        <!-- <div class="tabcontent" id="devis" style="display:none;">
+                            <h2>Devis</h2>
+                            <p>Contenu des devis ici...</p>
+                        </div> -->
+
+                        <!------------------------------- Prestations ----------------------------->
+                        <div class="tabcontent" id="prestations" style="display:none;">
+                            <table id="prestations">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>PU HT</th>
+                                        <th>TVA</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" id="description" placeholder="Description"></td>
+                                        <td><input type="number" id="puht" placeholder="PU HT"></td>
+                                        <td><input type="number" id="tva" placeholder="TVA"></td>
+                                        <td class="table-actions">
+                                            <span class="material-icons" onclick="validateRow(this)">
+                                                check_circle
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn" id="addRowBtn" onclick="addRow()">Ajouter une prestation</button>
+                        </div>
+                            
+
+                        
+                        <div class="tabcontent" id="clients" style="display:none;">
+                            <h2>Clients</h2>
+                            <p>Contenu des clients ici...</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         
 
 
