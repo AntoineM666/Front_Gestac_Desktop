@@ -17,9 +17,9 @@
     <link href="../css/profil.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-
     <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
     <script  src="../node_modules/jspdf/dist/jspdf.min.js"></script>
+    <script src="/js/logout.js"></script>
 
 </head>
 
@@ -54,7 +54,7 @@
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href="./profil.html">Mon profil</a></li>
                         <li><a class="dropdown-item" href="./login.html">Connection</a></li>
-                        <li><a class="dropdown-item" href="#!">déconnection</a></li>
+                        <li><a class="dropdown-item" onclick="logout()" href="#!">déconnection</a></li>
                 </ul>
             </li>
         </ul>
