@@ -18,7 +18,7 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
-//---------------------------------------------------- EDITER LE PROFIL ---------------------------------------------------------------//
+//------------------------------- EDITER LE PROFIL ---------------------------------------//
 function editUserInfo() {
     // Affiche le bouton pour changer le logo
     document.getElementById('changeLogoButton').style.display = 'block';
@@ -79,7 +79,7 @@ function changeLogo() {
 }
 
 
-//---------------------------------------------------PRESTATIONS-------------------------------------------------------------------//
+//-------------------------------------PRESTATIONS-------------------------------------------------//
 
 let isAdding = true; // Variable pour suivre l'état du bouton
 
@@ -145,4 +145,110 @@ function editRow(button) {
 
     // Remplace les icônes par un bouton de validation
     row.cells[3].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validateRow(this)">check_circle</span>`;
+}
+
+
+
+
+//--------------------------------- Portefeuille Clients -------------------------------//
+
+function toggleClientFields() {
+    const clientType = document.getElementById('clientType').value;
+    const clientFields = document.getElementById('clientFields');
+    const professionalFields = document.getElementById('professionalFields');
+
+    clientFields.style.display = clientType ? 'block' : 'none';
+    professionalFields.style.display = clientType === 'professionnel' ? 'block' : 'none';
+
+    // Clear previous values
+    document.getElementById('clientName').value = '';
+    document.getElementById('clientSurname').value = '';
+    document.getElementById('clientAddress').value = '';
+    document.getElementById('clientEmail').value = '';
+    document.getElementById('clientPhone').value = '';
+    document.getElementById('clientCompanyName').value = '';
+    document.getElementById('clientSIREN').value = '';
+    document.getElementById('clientSIRET').value = '';
+}
+
+function addClient() {
+    const clientType = document.getElementById('clientType').value;
+
+    const name = document.getElementById('clientName').value;
+    const surname = document.getElementById('clientSurname').value;
+    const address = document.getElementById('clientAddress').value;
+    const email = document.getElementById('clientEmail').value;
+    const phone = document.getElementById('clientPhone').value;
+    const companyName = clientType === 'professionnel' ? document.getElementById('clientCompanyName').value : '';
+    const SIREN = clientType === 'professionnel' ? document.getElementById('clientSIREN').value : '';
+    const SIRET = clientType === 'professionnel' ? document.getElementById('clientSIRET').value : '';
+
+    const tableBody = document.getElementById('clientList');
+    const newRow = tableBody.insertRow();
+
+    newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${surname}</td>
+        <td>${companyName}</td>
+        <td>${email}</td>
+        <td>${phone}</td>
+        <td>
+            <button onclick="editClient(this)">Modifier</button>
+            <button onclick="removeClient(this)">Supprimer</button>
+        </td>
+    `;
+
+    // Clear input fields
+    toggleClientFields();
+}
+
+function removeClient(button) {
+    const row = button.closest('tr');
+    row.remove();
+}
+
+function editClient(button) {
+    const row = button.closest('tr');
+    const cells = row.cells;
+
+    // Remplir les champs d'entrée avec les valeurs existantes
+    document.getElementById('clientName').value = cells[0].innerText;
+    document.getElementById('clientSurname').value = cells[1].innerText;
+    document.getElementById('clientEmail').value = cells[3].innerText;
+    document.getElementById('clientPhone').value = cells[4].innerText;
+
+    // Vérifier si le client est un professionnel pour remplir les champs supplémentaires
+    const companyName = cells[2].innerText;
+    document.getElementById('clientCompanyName').value = companyName ? companyName : '';
+    document.getElementById('clientType').value = companyName ? 'professionnel' : 'particulier';
+
+    // Afficher les champs correspondants
+    toggleClientFields();
+
+    // Ajouter un gestionnaire d'événements pour mettre à jour la ligne une fois l'édition terminée
+    const addClientButton = document.querySelector('#clientFields button');
+    addClientButton.innerText = 'Mettre à jour';
+    addClientButton.setAttribute('onclick', `updateClient(this, ${row.rowIndex})`);
+    
+    // Cachez la ligne dans le tableau après l'édition
+    row.style.display = 'none'; // Cachez la ligne actuelle pour éviter les doublons
+}
+
+function updateClient(button, rowIndex) {
+    const tableBody = document.getElementById('clientList');
+    const updatedRow = tableBody.rows[rowIndex];
+
+    // Mettre à jour les valeurs de la ligne avec les champs d'entrée
+    updatedRow.cells[0].innerText = document.getElementById('clientName').value;
+    updatedRow.cells[1].innerText = document.getElementById('clientSurname').value;
+    updatedRow.cells[2].innerText = document.getElementById('clientCompanyName').value;
+    updatedRow.cells[3].innerText = document.getElementById('clientEmail').value;
+    updatedRow.cells[4].innerText = document.getElementById('clientPhone').value;
+
+    // Réinitialiser le bouton pour "Ajouter Client"
+    button.innerText = 'Ajouter Client';
+    button.setAttribute('onclick', 'addClient()');
+
+    // Réinitialiser les champs d'entrée
+    toggleClientFields();
 }

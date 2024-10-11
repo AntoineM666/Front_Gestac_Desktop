@@ -126,6 +126,30 @@ body {
     display: block;
 }
 
+
+/*--------------------------------- Portefeuille Client --------------------------------*/
+
+#clientFields {
+    margin-bottom: 20px;
+}
+
+#clientTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#clientTable th, #clientTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#clientTable th {
+    background-color: #32a5e8;
+    color: white;
+}
+
+
+
 /* -------------------------------Table prestation styles------------------------------------------- */
 table {
     width: 100%;

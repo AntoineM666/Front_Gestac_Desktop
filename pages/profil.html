@@ -168,11 +168,50 @@
                             <button class="btn" id="addRowBtn" onclick="addRow()">Ajouter une prestation</button>
                         </div>
                             
-
+                        <!-------------------------------Portefeuille Clients ----------------------------->
                         
                         <div class="tabcontent" id="clients" style="display:none;">
                             <h2>Clients</h2>
-                            <p>Contenu des clients ici...</p>
+                            <div>
+                                <label for="clientType">Nouveau client:</label>
+                                <select id="clientType" onchange="toggleClientFields()">
+                                    <option value="">Sélectionner</option>
+                                    <option value="particulier">Particulier</option>
+                                    <option value="professionnel">Professionnel</option>
+                                </select>
+                            </div>
+                            
+                            <div id="clientFields" style="display: none;">
+                                <input type="text" id="clientName" placeholder="Nom" />
+                                <input type="text" id="clientSurname" placeholder="Prénom" />
+                                <input type="text" id="clientAddress" placeholder="Adresse" />
+                                <input type="email" id="clientEmail" placeholder="Email" />
+                                <input type="tel" id="clientPhone" placeholder="Téléphone" />
+                        
+                                <div id="professionalFields" style="display: none;">
+                                    <input type="text" id="clientCompanyName" placeholder="Nom de l'entreprise" />
+                                    <input type="text" id="clientSIREN" placeholder="N° SIREN" />
+                                    <input type="text" id="clientSIRET" placeholder="N° SIRET" />
+                                </div>
+                                
+                                <button onclick="addClient()">Ajouter Client</button>
+                            </div>
+                        
+                            <table id="clientTable">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th>Prénom</th>
+                                        <th>Nom de l'entreprise</th>
+                                        <th>Email</th>
+                                        <th>Téléphone</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="clientList">
+                                    <!-- Les clients seront ajoutés ici -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
