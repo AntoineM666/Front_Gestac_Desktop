@@ -23,8 +23,8 @@ Form_Login.addEventListener('submit', async (event) => {
 
 
         if (res.status === 200) {
-            window.location.replace('http://127.0.0.1:5500/') ;
-            sessionStorage.setItem('redirected', false);
+            window.location.replace('http://127.0.0.1:5500/') ; // Redirection vers la page d'accueil
+            sessionStorage.setItem('redirected', false); // Redirection vers la page d'accueil
         } else {
             alert('Identifiant ou mot de passe incorrect');
         }
