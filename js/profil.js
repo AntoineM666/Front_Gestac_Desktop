@@ -152,103 +152,238 @@ function editRow(button) {
 
 //--------------------------------- Portefeuille Clients -------------------------------//
 
-function toggleClientFields() {
-    const clientType = document.getElementById('clientType').value;
-    const clientFields = document.getElementById('clientFields');
-    const professionalFields = document.getElementById('professionalFields');
-
-    clientFields.style.display = clientType ? 'block' : 'none';
-    professionalFields.style.display = clientType === 'professionnel' ? 'block' : 'none';
-
-    // Clear previous values
-    document.getElementById('clientName').value = '';
-    document.getElementById('clientSurname').value = '';
-    document.getElementById('clientAddress').value = '';
-    document.getElementById('clientEmail').value = '';
-    document.getElementById('clientPhone').value = '';
-    document.getElementById('clientCompanyName').value = '';
-    document.getElementById('clientSIREN').value = '';
-    document.getElementById('clientSIRET').value = '';
+// Fonction pour afficher le tableau correspondant
+function showClientTable(type) {
+    document.getElementById('particulierTable').style.display = type === 'particulier' ? 'block' : 'none';
+    document.getElementById('professionnelTable').style.display = type === 'professionnel' ? 'block' : 'none';
 }
 
-function addClient() {
-    const clientType = document.getElementById('clientType').value;
-
-    const name = document.getElementById('clientName').value;
-    const surname = document.getElementById('clientSurname').value;
-    const address = document.getElementById('clientAddress').value;
-    const email = document.getElementById('clientEmail').value;
-    const phone = document.getElementById('clientPhone').value;
-    const companyName = clientType === 'professionnel' ? document.getElementById('clientCompanyName').value : '';
-    const SIREN = clientType === 'professionnel' ? document.getElementById('clientSIREN').value : '';
-    const SIRET = clientType === 'professionnel' ? document.getElementById('clientSIRET').value : '';
-
-    const tableBody = document.getElementById('clientList');
-    const newRow = tableBody.insertRow();
+// Fonction pour ajouter une ligne pour les clients particuliers
+function addPartRow() {
+    const table = document.getElementById('particulierClientTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
 
     newRow.innerHTML = `
-        <td>${name}</td>
-        <td>${surname}</td>
-        <td>${companyName}</td>
-        <td>${email}</td>
-        <td>${phone}</td>
-        <td>
-            <button onclick="editClient(this)">Modifier</button>
-            <button onclick="removeClient(this)">Supprimer</button>
-        </td>
-    `;
-
-    // Clear input fields
-    toggleClientFields();
+        <td><input type="text" placeholder="Nom"></td>
+        <td><input type="text" placeholder="Prénom"></td>
+        <td><input type="text" placeholder="Adresse"></td>
+        <td><input type="email" placeholder="Email"></td>
+        <td><input type="tel" placeholder="Téléphone"></td>
+        <td class="table-actions">
+            <span class="material-icons" onclick="validatePartRow(this)">check_circle</span>
+        </td>`;
 }
 
-function removeClient(button) {
+// Fonction pour valider une ligne pour les clients particuliers
+function validatePartRow(button) {
+    const row = button.closest('tr');
+
+    const nameValue = row.cells[0].querySelector('input').value;
+    const surnameValue = row.cells[1].querySelector('input').value;
+    const addressValue = row.cells[2].querySelector('input').value;
+    const emailValue = row.cells[3].querySelector('input').value;
+    const phoneValue = row.cells[4].querySelector('input').value;
+
+    row.cells[0].innerHTML = nameValue;
+    row.cells[1].innerHTML = surnameValue;
+    row.cells[2].innerHTML = addressValue;
+    row.cells[3].innerHTML = emailValue;
+    row.cells[4].innerHTML = phoneValue;
+
+    row.cells[5].innerHTML = `
+        <span class="material-icons" style="cursor: pointer; color: green;" onclick="editPartRow(this)">edit</span>
+        <span class="material-icons" style="cursor: pointer; color: red;" onclick="removePartRow(this)">backspace</span>`;
+}
+
+// Fonction pour ajouter une ligne pour les clients professionnels
+function addProRow() {
+    const table = document.getElementById('professionnelClientTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+
+    newRow.innerHTML = `
+        <td><input type="text" placeholder="Nom"></td>
+        <td><input type="text" placeholder="Prénom"></td>
+        <td><input type="text" placeholder="Nom de l'entreprise"></td>
+        <td><input type="text" placeholder="Adresse"></td>
+        <td><input type="email" placeholder="Email"></td>
+        <td><input type="tel" placeholder="Téléphone"></td>
+        <td><input type="text" placeholder="N° SIRET"></td>
+        <td><input type="text" placeholder="N° SIREN"></td>
+        <td class="table-actions">
+            <span class="material-icons" onclick="validateProRow(this)">check_circle</span>
+        </td>`;
+}
+
+// Fonction pour valider une ligne pour les clients professionnels
+function validateProRow(button) {
+    const row = button.closest('tr');
+
+    const nameValue = row.cells[0].querySelector('input').value;
+    const surnameValue = row.cells[1].querySelector('input').value;
+    const companyNameValue = row.cells[2].querySelector('input').value;
+    const addressValue = row.cells[3].querySelector('input').value;
+    const emailValue = row.cells[4].querySelector('input').value;
+    const phoneValue = row.cells[5].querySelector('input').value;
+    const siretValue = row.cells[6].querySelector('input').value;
+    const sirenValue = row.cells[7].querySelector('input').value;
+
+    row.cells[0].innerHTML = nameValue;
+    row.cells[1].innerHTML = surnameValue;
+    row.cells[2].innerHTML = companyNameValue;
+    row.cells[3].innerHTML = addressValue;
+    row.cells[4].innerHTML = emailValue;
+    row.cells[5].innerHTML = phoneValue;
+    row.cells[6].innerHTML = siretValue;
+    row.cells[7].innerHTML = sirenValue;
+
+    row.cells[8].innerHTML = `
+        <span class="material-icons" style="cursor: pointer; color: green;" onclick="editProRow(this)">edit</span>
+        <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeProRow(this)">backspace</span>`;
+}
+
+function editPartRow(button) {
+    const row = button.closest('tr');
+
+    const nameValue = row.cells[0].innerText;
+    const surnameValue = row.cells[1].innerText;
+    const addressValue = row.cells[2].innerText;
+    const emailValue = row.cells[3].innerText;
+    const phoneValue = row.cells[4].innerText;
+
+    // Remplace les cellules par des inputs avec les valeurs actuelles
+    row.cells[0].innerHTML = `<input type="text" value="${nameValue}">`;
+    row.cells[1].innerHTML = `<input type="text" value="${surnameValue}">`;
+    row.cells[2].innerHTML = `<input type="text" value="${addressValue}">`;
+    row.cells[3].innerHTML = `<input type="email" value="${emailValue}">`;
+    row.cells[4].innerHTML = `<input type="tel" value="${phoneValue}">`;
+
+    // Remplace les icônes par une icône de validation
+    row.cells[5].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validatePartRow(this)">check_circle</span>`;
+}
+
+function removePartRow(button) {
     const row = button.closest('tr');
     row.remove();
 }
 
-function editClient(button) {
+
+function editProRow(button) {
     const row = button.closest('tr');
-    const cells = row.cells;
 
-    // Remplir les champs d'entrée avec les valeurs existantes
-    document.getElementById('clientName').value = cells[0].innerText;
-    document.getElementById('clientSurname').value = cells[1].innerText;
-    document.getElementById('clientEmail').value = cells[3].innerText;
-    document.getElementById('clientPhone').value = cells[4].innerText;
+    const nameValue = row.cells[0].innerText;
+    const surnameValue = row.cells[1].innerText;
+    const companyNameValue = row.cells[2].innerText;
+    const addressValue = row.cells[3].innerText;
+    const emailValue = row.cells[4].innerText;
+    const phoneValue = row.cells[5].innerText;
+    const siretValue = row.cells[6].innerText;
+    const sirenValue = row.cells[7].innerText;
 
-    // Vérifier si le client est un professionnel pour remplir les champs supplémentaires
-    const companyName = cells[2].innerText;
-    document.getElementById('clientCompanyName').value = companyName ? companyName : '';
-    document.getElementById('clientType').value = companyName ? 'professionnel' : 'particulier';
+    // Remplace les cellules par des inputs avec les valeurs actuelles
+    row.cells[0].innerHTML = `<input type="text" value="${nameValue}">`;
+    row.cells[1].innerHTML = `<input type="text" value="${surnameValue}">`;
+    row.cells[2].innerHTML = `<input type="text" value="${companyNameValue}">`;
+    row.cells[3].innerHTML = `<input type="text" value="${addressValue}">`;
+    row.cells[4].innerHTML = `<input type="email" value="${emailValue}">`;
+    row.cells[5].innerHTML = `<input type="tel" value="${phoneValue}">`;
+    row.cells[6].innerHTML = `<input type="text" value="${siretValue}">`;
+    row.cells[7].innerHTML = `<input type="text" value="${sirenValue}">`;
 
-    // Afficher les champs correspondants
-    toggleClientFields();
-
-    // Ajouter un gestionnaire d'événements pour mettre à jour la ligne une fois l'édition terminée
-    const addClientButton = document.querySelector('#clientFields button');
-    addClientButton.innerText = 'Mettre à jour';
-    addClientButton.setAttribute('onclick', `updateClient(this, ${row.rowIndex})`);
-    
-    // Cachez la ligne dans le tableau après l'édition
-    row.style.display = 'none'; // Cachez la ligne actuelle pour éviter les doublons
+    // Remplace les icônes par une icône de validation
+    row.cells[8].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validateProRow(this)">check_circle</span>`;
 }
 
-function updateClient(button, rowIndex) {
-    const tableBody = document.getElementById('clientList');
-    const updatedRow = tableBody.rows[rowIndex];
+function removeProRow(button) {
+    const row = button.closest('tr');
+    row.remove();
+}
 
-    // Mettre à jour les valeurs de la ligne avec les champs d'entrée
-    updatedRow.cells[0].innerText = document.getElementById('clientName').value;
-    updatedRow.cells[1].innerText = document.getElementById('clientSurname').value;
-    updatedRow.cells[2].innerText = document.getElementById('clientCompanyName').value;
-    updatedRow.cells[3].innerText = document.getElementById('clientEmail').value;
-    updatedRow.cells[4].innerText = document.getElementById('clientPhone').value;
 
-    // Réinitialiser le bouton pour "Ajouter Client"
-    button.innerText = 'Ajouter Client';
-    button.setAttribute('onclick', 'addClient()');
+// Fonction pour ouvrir la pop-up d'ajout de client
+function openClientModal(type) {
+    console.log(`Opening modal for ${type} client`);
+    document.getElementById('modalClientType').value = type;
 
-    // Réinitialiser les champs d'entrée
-    toggleClientFields();
+    // Met à jour le titre du modal
+    document.getElementById('modalTitle').innerText = type === 'particulier' ? 'Ajouter un client particulier' : 'Ajouter un client professionnel';
+    
+    // Affiche ou cache les champs spécifiques aux professionnels
+    document.getElementById('modalProfessionalFields').style.display = type === 'professionnel' ? 'block' : 'none';
+    
+    // Réinitialise les champs de la pop-up
+    document.getElementById('modalClientName').value = '';
+    document.getElementById('modalClientSurname').value = '';
+    document.getElementById('modalClientAddress').value = '';
+    document.getElementById('modalClientEmail').value = '';
+    document.getElementById('modalClientPhone').value = '';
+    document.getElementById('modalClientCompanyName').value = '';
+    document.getElementById('modalClientSIRET').value = '';
+    document.getElementById('modalClientSIREN').value = '';
+
+    // Affiche la modal
+    document.getElementById('clientModal').style.display = 'block';
+}
+
+
+// Fonction pour fermer la pop-up
+function closeClientModal() {
+    document.getElementById('clientModal').style.display = 'none';
+}
+
+// Fonction pour ajouter un client à partir de la pop-up
+function addClientFromModal() {
+    const type = document.getElementById('modalClientType').value;
+    
+    if (type === 'particulier') {
+        const name = document.getElementById('modalClientName').value;
+        const surname = document.getElementById('modalClientSurname').value;
+        const address = document.getElementById('modalClientAddress').value;
+        const email = document.getElementById('modalClientEmail').value;
+        const phone = document.getElementById('modalClientPhone').value;
+
+        // Ajoute le client particulier au tableau
+        const table = document.getElementById('particulierClientTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+        newRow.innerHTML = `
+            <td>${name}</td>
+            <td>${surname}</td>
+            <td>${address}</td>
+            <td>${email}</td>
+            <td>${phone}</td>
+            <td class="table-actions">
+                <span class="material-icons" style="cursor: pointer; color: green;" onclick="editPartRow(this)">edit</span>
+                <span class="material-icons" style="cursor: pointer; color: red;" onclick="removePartRow(this)">backspace</span>
+            </td>
+        `;
+    } else if (type === 'professionnel') {
+        const name = document.getElementById('modalClientName').value;
+        const surname = document.getElementById('modalClientSurname').value;
+        const companyName = document.getElementById('modalClientCompanyName').value;
+        const address = document.getElementById('modalClientAddress').value;
+        const email = document.getElementById('modalClientEmail').value;
+        const phone = document.getElementById('modalClientPhone').value;
+        const siret = document.getElementById('modalClientSIRET').value;
+        const siren = document.getElementById('modalClientSIREN').value;
+
+        // Ajoute le client professionnel au tableau
+        const table = document.getElementById('professionnelClientTable').getElementsByTagName('tbody')[0];
+        const newRow = table.insertRow();
+        newRow.innerHTML = `
+            <td>${name}</td>
+            <td>${surname}</td>
+            <td>${companyName}</td>
+            <td>${address}</td>
+            <td>${email}</td>
+            <td>${phone}</td>
+            <td>${siret}</td>
+            <td>${siren}</td>
+            <td class="table-actions">
+                <span class="material-icons" style="cursor: pointer; color: green;" onclick="editProRow(this)">edit</span>
+                <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeProRow(this)">backspace</span>
+            </td>
+        `;
+    }
+
+    // Ferme la pop-up
+    closeClientModal();
 }

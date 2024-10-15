@@ -171,48 +171,84 @@
                         <!-------------------------------Portefeuille Clients ----------------------------->
                         
                         <div class="tabcontent" id="clients" style="display:none;">
-                            <h2>Clients</h2>
                             <div>
-                                <label for="clientType">Nouveau client:</label>
-                                <select id="clientType" onchange="toggleClientFields()">
-                                    <option value="">Sélectionner</option>
-                                    <option value="particulier">Particulier</option>
-                                    <option value="professionnel">Professionnel</option>
-                                </select>
+                                <button class="btn" id="addBtn" onclick="showClientTable('particulier')">Clients Particuliers</button>
+                                <button class="btn" id="addBtn" onclick="showClientTable('professionnel')">Clients Professionnels</button>
                             </div>
-                            
-                            <div id="clientFields" style="display: none;">
-                                <input type="text" id="clientName" placeholder="Nom" />
-                                <input type="text" id="clientSurname" placeholder="Prénom" />
-                                <input type="text" id="clientAddress" placeholder="Adresse" />
-                                <input type="email" id="clientEmail" placeholder="Email" />
-                                <input type="tel" id="clientPhone" placeholder="Téléphone" />
                         
-                                <div id="professionalFields" style="display: none;">
-                                    <input type="text" id="clientCompanyName" placeholder="Nom de l'entreprise" />
-                                    <input type="text" id="clientSIREN" placeholder="N° SIREN" />
-                                    <input type="text" id="clientSIRET" placeholder="N° SIRET" />
+                            <!-- Table Clients Particuliers -->
+                            <div id="particulierTable" class="clientTable" style="display:none;">
+                                <h3>Clients Particuliers</h3>
+                                <table id="particulierClientTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Adresse</th>
+                                            <th>Email</th>
+                                            <th>Téléphone</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Les clients particuliers seront ajoutés ici -->
+                                    </tbody>
+                                </table>
+                                <button class="btn" id="addBtn" onclick="openClientModal('particulier')">Ajouter un client</button>
+                            </div>
+                        
+                            <!-- Table Clients Professionnels -->
+                            <div id="professionnelTable" class="clientTable" style="display:none;">
+                                <h3>Clients Professionnels</h3>
+                                <table id="professionnelClientTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Prénom</th>
+                                            <th>Nom de l'entreprise</th>
+                                            <th>Adresse</th>
+                                            <th>Email</th>
+                                            <th>Téléphone</th>
+                                            <th>N° SIRET</th>
+                                            <th>N° SIREN</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Les clients professionnels seront ajoutés ici -->
+                                    </tbody>
+                                </table>
+                                <button class="btn" id="addBtn" onclick="openClientModal('professionnel')">Ajouter un client</button>
+                            </div>
+                        
+                            <!-- Pop-up modal -->
+                            <div id="clientModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close" onclick="closeClientModal()" style="cursor: pointer;">&times;</span>
+                                    <h2 id="modalTitle">Ajouter un client</h2>
+                                    
+                                    <!-- Formulaire d'ajout de client -->
+                                    <input type="hidden" id="modalClientType" />
+                                    
+                                    <div id="modalClientFields">
+                                        <input type="text" id="modalClientName" placeholder="Nom" required />
+                                        <input type="text" id="modalClientSurname" placeholder="Prénom" required />
+                                        <input type="text" id="modalClientAddress" placeholder="Adresse" required />
+                                        <input type="email" id="modalClientEmail" placeholder="Email" required />
+                                        <input type="tel" id="modalClientPhone" placeholder="Téléphone" required />
+
+                                        <!-- Champs supplémentaires pour les professionnels -->
+                                        <div id="modalProfessionalFields" style="display: none;">
+                                            <input type="text" id="modalClientCompanyName" placeholder="Nom de l'entreprise" required />
+                                            <input type="text" id="modalClientSIREN" placeholder="N° SIREN" required />
+                                            <input type="text" id="modalClientSIRET" placeholder="N° SIRET" required />
+                                        </div>
+
+                                        <button onclick="addClientFromModal()" id="addBtn">Ajouter Client</button>
+                                    </div>
                                 </div>
-                                
-                                <button onclick="addClient()">Ajouter Client</button>
                             </div>
-                        
-                            <table id="clientTable">
-                                <thead>
-                                    <tr>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
-                                        <th>Nom de l'entreprise</th>
-                                        <th>Email</th>
-                                        <th>Téléphone</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="clientList">
-                                    <!-- Les clients seront ajoutés ici -->
-                                </tbody>
-                            </table>
-                        </div>
+                        </div>                   
                     </div>
                 </div>
             </div>

@@ -14,14 +14,14 @@ body {
 
 .main-content {
     display: flex;
-    width: 55%;
+    width: 80%;
 }
 
 /*-----------------------------  SIDEBAR INFORMATION UTILISATEUR ----------------------------- */
 .sidebar {
     background-color: #343a40;
     padding: 20px;
-    width: 35%;
+    width: 25%;
     border-radius: 5px;
     color: #fff;
     display: flex;
@@ -37,7 +37,7 @@ body {
 }
 
 .logoprofil {
-    width: 100%;
+    width: 40%;
     margin-bottom: 20px;
 }
 
@@ -136,6 +136,15 @@ body {
 #clientTable {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+}
+
+button.btn {
+    margin: 5px;
+}
+
+.material-icons {
+    cursor: pointer;
 }
 
 #clientTable th, #clientTable td {
@@ -147,6 +156,58 @@ body {
     background-color: #32a5e8;
     color: white;
 }
+
+#addBtn {
+    background-color: #32a5e8;
+    color: white;
+    padding: 10px 20px;
+}
+
+/* Style pour la pop-up */
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px; /* Ajoute une largeur maximale pour contrôler l'extension */
+}
+
+#modalClientFields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Crée deux colonnes */
+    gap: 10px; /* Espace entre les champs */
+}
+
+/* Styles pour occuper une seule colonne pour certains champs (email, téléphone) */
+#modalClientEmail, 
+#modalClientPhone,
+#modalClientCompanyName,
+#modalClientSIRET,
+#modalClientSIREN {
+    grid-column: span 2; /* Ces éléments prennent toute la largeur */
+}
+
+input {
+    width: 100%; /* Assure que les inputs occupent toute la largeur de leur cellule */
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+button {
+    grid-column: span 2; /* Le bouton occupe toute la largeur de la pop-up */
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 
 
 
@@ -189,7 +250,7 @@ td {
     color: #2288cc;
 }
 
-.btn {
+#addRowBtn {
     background-color: #32a5e8;
     color: white;
     padding: 10px 20px;
