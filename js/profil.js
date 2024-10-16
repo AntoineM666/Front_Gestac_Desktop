@@ -83,60 +83,60 @@ function changeLogo() {
 
 let isAdding = true; // Variable pour suivre l'état du bouton
 
-// Fonction pour ajouter ou valider une ligne TABLEAU PRESTATIONS
-function validateRow(button) {
-    // Récupère la ligne parent de l'icône
-    var row = button.closest('tr');
-    
-    // Récupère les inputs dans la ligne
-    var descriptionInput = row.cells[0].querySelector('input');
-    var puhtInput = row.cells[1].querySelector('input');
-    var tvaInput = row.cells[2].querySelector('input');
+// Fonction pour ouvrir la pop-up des prestations
+// Fonction pour ouvrir la pop-up d'ajout de prestation
+function openPrestationsModal() {
+    // Réinitialise les champs de la pop-up
+    document.getElementById('modalPrestationsDescription').value = '';
+    document.getElementById('modalPrestationsPUHT').value = '';
+    document.getElementById('modalPrestationsTVA').value = '';
 
-    // Récupère les valeurs entrées par l'utilisateur
-    var descriptionValue = descriptionInput.value;
-    var puhtValue = puhtInput.value;
-    var tvaValue = tvaInput.value;
-
-    // Remplace les inputs par les valeurs validées
-    row.cells[0].innerHTML = descriptionValue;
-    row.cells[1].innerHTML = puhtValue;
-    row.cells[2].innerHTML = tvaValue;
-
-    // Remplace l'icône de validation par l'icône de suppression et modification
-    row.cells[3].innerHTML = `
-        <td class="table-actions"><span class="material-icons" style="cursor: pointer; font-size: 13px; color: green;" onclick="editRow(this)">edit</span></td>
-        <td class="table-actions"><span class="material-icons" style="cursor: pointer; font-size: 13px; color: #c50a0a;" onclick="removeRow(this)">backspace</span></td>
-    `;
+    // Affiche la modal
+    document.getElementById('prestationsModal').style.display = 'block';
 }
 
-function addRow() {
-    var table = document.getElementById('prestations').getElementsByTagName('tbody')[0];
+// Fonction pour fermer la pop-up
+function closePrestationsModal() {
+    document.getElementById('prestationsModal').style.display = 'none';
+}
 
-    // Ajoute une nouvelle ligne au tableau
-    var newRow = table.insertRow();
+// Fonction pour ajouter une prestation à partir de la pop-up
+function addPrestationsFromModal() {
+    const description = document.getElementById('modalPrestationsDescription').value;
+    const puht = document.getElementById('modalPrestationsPUHT').value;
+    const tva = document.getElementById('modalPrestationsTVA').value;
 
-    // Insère les cellules et les inputs correspondants
+    // Ajoute la prestation au tableau
+    const table = document.getElementById('prestationsTable').getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
     newRow.innerHTML = `
-        <td><input type="text" placeholder="Description"></td>
-        <td><input type="number" placeholder="PU HT"></td>
-        <td><input type="number" placeholder="TVA"></td>
-        <td class="table-actions"><span class="material-icons" onclick="validateRow(this)">check_circle</span></td>`;
+        <td>${description}</td>
+        <td>${puht}</td>
+        <td>${tva}</td>
+        <td class="table-actions">
+            <span class="material-icons" style="cursor: pointer; color: green;" onclick="editRow(this)">edit</span>
+            <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeRow(this)">backspace</span>
+        </td>
+    `;
+
+    // Ferme la pop-up
+    closePrestationsModal();
 }
 
+// Fonction pour supprimer une ligne
 function removeRow(button) {
-    var row = button.closest('tr');
+    const row = button.closest('tr');
     row.remove();
 }
 
 // Fonction pour éditer une ligne validée
 function editRow(button) {
-    var row = button.closest('tr');
+    const row = button.closest('tr');
 
     // Récupère les valeurs validées
-    var descriptionValue = row.cells[0].innerText;
-    var puhtValue = row.cells[1].innerText;
-    var tvaValue = row.cells[2].innerText;
+    const descriptionValue = row.cells[0].innerText;
+    const puhtValue = row.cells[1].innerText;
+    const tvaValue = row.cells[2].innerText;
 
     // Remplace les valeurs validées par des inputs
     row.cells[0].innerHTML = `<input type="text" value="${descriptionValue}">`;
@@ -147,7 +147,25 @@ function editRow(button) {
     row.cells[3].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validateRow(this)">check_circle</span>`;
 }
 
+// Fonction pour valider une ligne
+function validateRow(button) {
+    const row = button.closest('tr');
 
+    const descriptionInput = row.cells[0].querySelector('input').value;
+    const puhtInput = row.cells[1].querySelector('input').value;
+    const tvaInput = row.cells[2].querySelector('input').value;
+
+    // Remplace les inputs par les valeurs validées
+    row.cells[0].innerText = descriptionInput;
+    row.cells[1].innerText = puhtInput;
+    row.cells[2].innerText = tvaInput;
+
+    // Remplace l'icône de validation par les icônes d'édition et de suppression
+    row.cells[3].innerHTML = `
+        <span class="material-icons" style="cursor: pointer; color: green;" onclick="editRow(this)">edit</span>
+        <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeRow(this)">backspace</span>
+    `;
+}
 
 
 //--------------------------------- Portefeuille Clients -------------------------------//

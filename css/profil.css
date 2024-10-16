@@ -163,6 +163,12 @@ button.btn {
     padding: 10px 20px;
 }
 
+#cancelBtn {
+    background-color: #ccc;
+    color: white;
+    padding: 10px 20px;
+}
+
 /* Style pour la pop-up */
 .modal-content {
     background-color: #fff;
@@ -208,7 +214,9 @@ button:hover {
     background-color: #0056b3;
 }
 
-
+h3 {
+    margin-top: 1em;
+}
 
 
 /* -------------------------------Table prestation styles------------------------------------------- */
@@ -256,6 +264,7 @@ td {
     padding: 10px 20px;
    
 }
+
 
 /* ---------------------------- Media Queries --------------------------------------------------------- */
 

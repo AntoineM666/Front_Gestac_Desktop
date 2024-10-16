@@ -143,7 +143,7 @@
 
                         <!------------------------------- Prestations ----------------------------->
                         <div class="tabcontent" id="prestations" style="display:none;">
-                            <table id="prestations">
+                            <table id="prestationsTable">
                                 <thead>
                                     <tr>
                                         <th>Description</th>
@@ -153,20 +153,40 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td><input type="text" id="description" placeholder="Description"></td>
-                                        <td><input type="number" id="puht" placeholder="PU HT"></td>
-                                        <td><input type="number" id="tva" placeholder="TVA"></td>
-                                        <td class="table-actions">
-                                            <span class="material-icons" onclick="validateRow(this)">
-                                                check_circle
-                                            </span>
-                                        </td>
-                                    </tr>
+                                    <!-- Les prestations seront ajoutées ici -->
                                 </tbody>
                             </table>
-                            <button class="btn" id="addRowBtn" onclick="addRow()">Ajouter une prestation</button>
+                            <button class="btn" id="addBtn" onclick="openPrestationsModal()">Ajouter une prestation</button>
+                        
+                            <!-- Pop-up modal -->
+                            <div id="prestationsModal" class="modal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <span class="close" onclick="closePrestationsModal()" style="cursor: pointer;">&times;</span>
+                                        <h2>Ajouter une prestation</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Formulaire d'ajout de prestation -->
+                                        <form id="prestationsForm">
+                                            <label for="modalPrestationsDescription">Description :</label>
+                                            <input type="text" id="modalPrestationsDescription" placeholder="Description" required />
+                                            
+                                            <label for="modalPrestationsPUHT">PU HT :</label>
+                                            <input type="number" id="modalPrestationsPUHT" placeholder="PU HT" required />
+                                            
+                                            <label for="modalPrestationsTVA">TVA :</label>
+                                            <input type="number" id="modalPrestationsTVA" placeholder="TVA" required />
+                        
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn" id="addBtn" onclick="addPrestationsFromModal()">Ajouter</button>
+                                                <button type="button" class="btn cancel" id="cancelBtn" onclick="closePrestationsModal()">Annuler</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        
                             
                         <!-------------------------------Portefeuille Clients ----------------------------->
                         
