@@ -18,7 +18,58 @@ function openTab(evt, tabName) {
     evt.currentTarget.className += " active";
 }
 
-//------------------------------- EDITER LE PROFIL ---------------------------------------//
+//------------------------------- LE PROFIL ---------------------------------------//
+
+// Variable pour la base de l'API
+const API_BASE_URL = 'http://localhost:8080/api';
+
+// Fonction pour récupérer les informations de l'utilisateur
+async function fetchUserInfo() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/protected`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des données utilisateur');
+        }
+
+        const userData = await response.json();
+        displayUserInfo(userData);
+    } catch (error) {
+        console.error(error);
+        alert('Erreur lors de la récupération des informations utilisateur');
+    }
+}
+
+// Fonction pour afficher les informations de l'utilisateur dans le HTML
+function displayUserInfo(user) {
+    document.querySelector('#userNom').textContent = user.username || 'Non spécifié';
+    document.querySelector('#userPrenom').textContent = user.prenom || 'Non spécifié';
+    document.querySelector('#userEntreprise').textContent = user.nomEntreprise || 'Non spécifié';
+    document.querySelector('#userAdresse').textContent = user.adresse || 'Non spécifié';
+    document.querySelector('#userSiren').textContent = user.siren || 'Non spécifié';
+    document.querySelector('#userSiret').textContent = user.siret || 'Non spécifié';
+    document.querySelector('#userMail').textContent = user.mail || 'Non spécifié';
+    document.querySelector('#userTelephone').textContent = user.tel || 'Non spécifié';
+
+
+
+    // Si tu veux aussi changer le logo
+    // if (user.logo) {
+    //     document.querySelector('#userLogo').src = user.logo;
+    // }
+}
+
+// Appelle la fonction lors du chargement de la page
+window.onload = fetchUserInfo;
+
+
+
 function editUserInfo() {
     // Affiche le bouton pour changer le logo
     document.getElementById('changeLogoButton').style.display = 'block';

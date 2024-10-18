@@ -110,26 +110,24 @@
                     
                 <!-- Conteneur pour le contenu principal avec sidebar et contenu -->
                 <div class="main-content">
-
-                    
-
                     <!-- Conteneur pour la banderole avec les informations utilisateur -->
                     <div class="sidebar">
                         <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil" id="userLogo">
                         <div class="info" id="userInfo">
-                            <p><strong>Nom</strong> </p>
-                            <p><strong>Prénom</strong> </p>
-                            <p><strong>Nom de l'entreprise</strong></p>
-                            <p><strong>Adresse</strong></p>
-                            <p><strong>N° SIREN</strong></p>
-                            <p><strong>N° SIRET</strong></p>
-                            <p><strong>Email</strong></p>
-                            <p><strong>Téléphone</strong></p>
+                            <p><strong>Nom :</strong> <span id="userNom"></span></p>
+                            <p><strong>Prénom :</strong> <span id="userPrenom"></span></p>
+                            <p><strong>Nom de l'entreprise :</strong> <span id="userEntreprise"></span></p>
+                            <p><strong>Adresse :</strong> <span id="userAdresse"></span></p>
+                            <p><strong>N° SIREN :</strong> <span id="userSiren"></span></p>
+                            <p><strong>N° SIRET :</strong> <span id="userSiret"></span></p>
+                            <p><strong>Mail :</strong> <span id="userMail"></span></p>
+                            <p><strong>Téléphone :</strong> <span id="userTelephone"></span></p>
                         </div>
                         <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
                         <button class="btn-change-logo" id="changeLogoButton" style="display: none;" onclick="triggerLogoInput()">Changer le logo</button>
                         <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" />
                     </div>
+                    
                     <!-- Conteneur pour le contenu des factures/devis -->
                     <div class="content-container">
                         <div class="tabcontent" id="templateFactures">
