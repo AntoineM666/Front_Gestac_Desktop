@@ -24,3 +24,45 @@ window.addEventListener('DOMContentLoaded', event => {
     }
 
 });
+
+
+// Variable pour la base de l'API
+const API_BASE_URL = 'http://localhost:8080/api';
+
+// Fonction pour récupérer les informations de l'utilisateur
+async function fetchUserConnect() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/protected`, {
+            method: 'GET',
+            credentials: 'include', // Inclure les cookies dans la requête
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des données utilisateur');
+        }
+
+        const userData = await response.json();
+
+        // Stocke l'ID de l'utilisateur pour les futures mises à jour
+        userId = userData.id; // Assigne l'ID de l'utilisateur à la variable globale
+        
+        displayUserConnect(userData); // Affiche les informations de l'utilisateur
+    } catch (error) {
+        console.error(error);
+        alert('Erreur lors de la récupération des informations utilisateur');
+    }
+}
+
+// Fonction pour afficher les informations de l'utilisateur dans le HTML
+function displayUserConnect(user) {
+    document.querySelector('#userName').innerHTML = `
+        ${user.username ? user.username : 'Non spécifié'} ${user.prenom ? user.prenom : 'Non spécifié'}
+        
+    `;
+}
+
+// Appelle la fonction lors du chargement de la page
+window.onload = fetchUserConnect;
