@@ -55,10 +55,17 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">outils</div>
-                            <a class="nav-link" href="./facture.html">
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#factureCollapse" aria-expanded="false" aria-controls="factureCollapse">
                                 <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
                                 Facture
                             </a>
+                            <div class="collapse" id="factureCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <div class="bg-dark p-2">
+                                    <a class="nav-link" href="./pages/facture.html">Nouvelle facture/devis</a>
+                                    <a class="nav-link" href="./pages/mes-factures.html">Mes factures</a>
+                                    <a class="nav-link" href="./pages/mes-devis.html">Mes devis</a>
+                                </div>
+                            </div>
 
                             
                             <div class="sb-sidenav-menu-heading">Addons</div>
