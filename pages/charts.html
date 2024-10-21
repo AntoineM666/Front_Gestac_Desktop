@@ -23,10 +23,6 @@
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             <!-- Navbar Search-->
             <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
             </form>
             <!-- Navbar-->
             <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -54,13 +50,13 @@
                                 Dashboard
                             </a>
                             <div class="sb-sidenav-menu-heading">outils</div>
-                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#factureCollapse" aria-expanded="false" aria-controls="factureCollapse">
-                                <div class="sb-nav-link-icon"><i class="fa-solid fa-file-invoice"></i></div>
-                                Facture :
+                            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="collapse" data-bs-target="#factureCollapse" aria-expanded="false" aria-controls="factureCollapse">
+                                <div class="sb-nav-link-icon" ><i class="fa-solid fa-file-invoice" ></i></div>
+                                Facture
                             </a>
                             <div class="collapse" id="factureCollapse" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <div class="bg-dark p-2">
-                                    <a class="nav-link" href="./pages/facture.html">- Nouvelle facture/devis</a>
+                                    <a class="nav-link" href="facture.html">- Nouvelle facture/devis</a>
                                     <a class="nav-link" href="./pages/mes-factures.html">- Mes factures</a>
                                     <a class="nav-link" href="./pages/mes-devis.html">- Mes devis</a>
                                 </div>
@@ -79,7 +75,7 @@
                     </div>
                     <div class="sb-sidenav-footer">
                         <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <p> <span id="userName"> </span> </p>
                     </div>
                 </nav>
             </div>
