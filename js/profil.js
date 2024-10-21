@@ -28,7 +28,7 @@ async function fetchUserInfo() {
     try {
         const response = await fetch(`${API_BASE_URL}/protected`, {
             method: 'GET',
-            credentials: 'include',
+            credentials: 'include', // Inclure les cookies dans la requête
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -39,7 +39,11 @@ async function fetchUserInfo() {
         }
 
         const userData = await response.json();
-        displayUserInfo(userData);
+
+        // Stocke l'ID de l'utilisateur pour les futures mises à jour
+        userId = userData.id; // Assigne l'ID de l'utilisateur à la variable globale
+        
+        displayUserInfo(userData); // Affiche les informations de l'utilisateur
     } catch (error) {
         console.error(error);
         alert('Erreur lors de la récupération des informations utilisateur');
@@ -48,21 +52,16 @@ async function fetchUserInfo() {
 
 // Fonction pour afficher les informations de l'utilisateur dans le HTML
 function displayUserInfo(user) {
-    document.querySelector('#userNom').textContent = user.username || 'Non spécifié';
-    document.querySelector('#userPrenom').textContent = user.prenom || 'Non spécifié';
-    document.querySelector('#userEntreprise').textContent = user.nomEntreprise || 'Non spécifié';
-    document.querySelector('#userAdresse').textContent = user.adresse || 'Non spécifié';
-    document.querySelector('#userSiren').textContent = user.siren || 'Non spécifié';
-    document.querySelector('#userSiret').textContent = user.siret || 'Non spécifié';
-    document.querySelector('#userMail').textContent = user.mail || 'Non spécifié';
-    document.querySelector('#userTelephone').textContent = user.tel || 'Non spécifié';
-
-
-
-    // Si tu veux aussi changer le logo
-    // if (user.logo) {
-    //     document.querySelector('#userLogo').src = user.logo;
-    // }
+    document.querySelector('#userInfo').innerHTML = `
+        <p>Nom : ${user.username ? user.username : 'Non spécifié'}</p>
+        <p>Prénom : ${user.prenom ? user.prenom : 'Non spécifié'}</p>
+        <p>Nom de l'entreprise : ${user.nomEntreprise ? user.nomEntreprise : 'Non spécifié'}</p>
+        <p>Adresse : ${user.adresse ? user.adresse : 'Non spécifié'}</p>
+        <p>SIREN : ${user.siren ? user.siren : 'Non spécifique'}</p>
+        <p>SIRET : ${user.siret ? user.siret : 'Non spécifique'}</p>
+        <p>Mail : ${user.mail ? user.mail : 'Non spécifié'}</p>
+        <p>Téléphone : ${user.tel ? user.tel : 'Non spécifié'}</p>
+    `;
 }
 
 // Appelle la fonction lors du chargement de la page
@@ -70,43 +69,110 @@ window.onload = fetchUserInfo;
 
 
 
-function editUserInfo() {
-    // Affiche le bouton pour changer le logo
-    document.getElementById('changeLogoButton').style.display = 'block';
+let userId = null; // Variable pour stocker l'ID de l'utilisateur
 
-    // Transforme les informations en champs éditables
+// Fonction pour récupérer les informations de l'utilisateur
+async function fetchUserInfo() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/protected`, {
+            method: 'GET',
+            credentials: 'include', // Inclure les cookies dans la requête
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des données utilisateur');
+        }
+
+        const userData = await response.json();
+        userId = userData.id; // Assigne l'ID de l'utilisateur
+        displayUserInfo(userData);
+    } catch (error) {
+        console.error(error);
+        alert('Erreur lors de la récupération des informations utilisateur');
+    }
+}
+
+// Fonction pour modifier les informations utilisateur
+function editUserInfo() {
+    document.getElementById('changeLogoButton').style.display = 'block';
     var infoDiv = document.getElementById('userInfo');
     var userInfo = infoDiv.querySelectorAll('p');
     userInfo.forEach(function (p) {
-        // Récupère le texte actuel et le sépare en label et valeur
-        var text = p.innerHTML.split(': ');
-        var label = text[0]; // Récupère le label sans changement
-        var value = text[1]; // Récupère la valeur
-
-        // Remplace le texte par un champ input
+        var text = p.innerText.split(':');
+        var label = text[0]; 
+        var value = text[1] ? text[1].trim() : ''; 
         p.innerHTML = `${label}: <input type="text" value="${value}">`;
     });
 
-    // Change le texte du bouton "Éditer" en "Enregistrer"
     var editButton = document.getElementById('editButton');
     editButton.innerText = "Enregistrer";
     editButton.setAttribute("onclick", "saveUserInfo()");
 }
 
-function saveUserInfo() {
-    // Cache le bouton pour changer le logo après enregistrement
-    document.getElementById('changeLogoButton').style.display = 'none';
+// Fonction pour enregistrer les informations utilisateur
+async function saveUserInfo() {
+    console.log("Bouton Enregistrer cliqué");
 
-    // Récupère les nouvelles valeurs et réaffiche le texte
-    var infoDiv = document.getElementById('userInfo');
-    var userInfo = infoDiv.querySelectorAll('p');
-    userInfo.forEach(function (p) {
-        var input = p.querySelector('input').value; // Récupère la valeur de l'input
-        var label = p.innerHTML.split(': ')[0]; // Récupère le label sans ajout de `:`
+    if (!userId) {
+        console.error("L'ID de l'utilisateur est introuvable.");
+        alert('Impossible de mettre à jour les informations, ID utilisateur manquant');
+        return;
+    }
 
-        // Affiche la valeur sans ajouter de ':' supplémentaire
-        p.innerHTML = `${label}: ${input}`;
+    const userInfo = {};
+    const userInfoDiv = document.querySelector('#userInfo');
+
+    const fields = [
+        'username', 
+        'prenom', 
+        'nomEntreprise', 
+        'adresse', 
+        'siren', 
+        'siret', 
+        'mail', 
+        'tel'
+    ];
+
+    fields.forEach((field, index) => {
+        const inputElement = userInfoDiv.querySelector(`p:nth-child(${index + 1}) input`);
+        if (inputElement) {
+            userInfo[field] = inputElement.value;
+        } else {
+            console.warn(`Champ d'entrée pour ${field} introuvable.`);
+        }
     });
+
+    console.log('Données envoyées:', userInfo);
+
+    try {
+        const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/merge-patch+json'
+            },
+            body: JSON.stringify(userInfo)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erreur lors de la mise à jour des données :', errorData);
+            alert(`Erreur: ${errorData['hydra:description'] || 'Erreur lors de la mise à jour des informations utilisateur'}`);
+            return;
+        }
+
+        alert('Les informations utilisateur ont été mises à jour avec succès !');
+        
+        // Réafficher les informations mises à jour
+        displayUserInfo(userInfo);
+
+    } catch (error) {
+        console.error('Erreur lors de la requête :', error);
+        alert('Erreur de connexion au serveur.');
+    }
 
     // Remet le texte du bouton à "Éditer"
     var editButton = document.getElementById('editButton');
@@ -114,10 +180,8 @@ function saveUserInfo() {
     editButton.setAttribute("onclick", "editUserInfo()");
 }
 
-function triggerLogoInput() {
-    // Ouvre la boîte de dialogue de sélection d'image
-    document.getElementById('logoInput').click();
-}
+// Appel initial pour récupérer les informations de l'utilisateur
+window.onload = fetchUserInfo;
 
 function changeLogo() {
     var fileInput = document.getElementById('logoInput');
