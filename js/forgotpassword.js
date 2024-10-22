@@ -1,3 +1,7 @@
+import { config } from "../configEnv.js";
+
+console.log(config)
+
 const options = {
     method: 'GET',
     credentials:'include' ,
@@ -7,7 +11,7 @@ const options = {
         , 
     },
   };
-  fetch('http://localhost:8080/api/protected',options)
+  fetch( config.API_BASE_URL + config.API_PROTEC,options)
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -20,4 +24,3 @@ const options = {
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
     });
-  

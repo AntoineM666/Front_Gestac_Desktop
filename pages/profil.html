@@ -11,15 +11,14 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Tables - SB Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="../css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <link href="../css/profil.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <script src="../node_modules/html2canvas/dist/html2canvas.min.js"></script>
-    <script  src="../node_modules/jspdf/dist/jspdf.min.js"></script>
     <script src="/js/logout.js"></script>
+    
 
 </head>
 
@@ -112,11 +111,22 @@
                 <!-- Conteneur pour le contenu principal avec sidebar et contenu -->
                 <div class="main-content">
                     <!-- Conteneur pour la banderole avec les informations utilisateur -->
-                    <div class="sidebar">
-                        <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil" id="userLogo">
+                    <div class="sidebar" id="sideUser">
                         <div class="info" id="userInfo">
                             <p><strong>Nom :</strong> <span id="userNom"></span></p>
                             <p><strong>Prénom :</strong> <span id="userPrenom"></span></p>
+                            <p><strong>Mail :</strong> <span id="userMail"></span></p>
+                            <p><strong>Téléphone :</strong> <span id="userTelephone"></span></p>
+                        </div>
+                        <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
+                        <button class="btn-change-logo" id="changeLogoButton" style="display: none;" onclick="triggerLogoInput()">Changer le logo</button>
+                        <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" />
+                    </div>
+
+                    <!-- Conteneur cadre société -->
+                    <div class="sidebar" id="sideSociety">
+                        <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil" id="userLogo">
+                        <div class="info" id="societyInfo">
                             <p><strong>Nom de l'entreprise :</strong> <span id="userEntreprise"></span></p>
                             <p><strong>Adresse :</strong> <span id="userAdresse"></span></p>
                             <p><strong>N° SIREN :</strong> <span id="userSiren"></span></p>
@@ -124,9 +134,9 @@
                             <p><strong>Mail :</strong> <span id="userMail"></span></p>
                             <p><strong>Téléphone :</strong> <span id="userTelephone"></span></p>
                         </div>
-                        <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
+                        <!-- <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
                         <button class="btn-change-logo" id="changeLogoButton" style="display: none;" onclick="triggerLogoInput()">Changer le logo</button>
-                        <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" />
+                        <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" /> -->
                     </div>
                     
                     <!-- Conteneur pour le contenu des factures/devis -->
@@ -294,9 +304,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
     <!-- <script src="../js/scripts.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="../js/datatables-simple-demo.js"></script>
-    <script src="../js/profil.js"></script>
+    <script src="../js/profil.js" type="module"></script>
 </body>
 
 

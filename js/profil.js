@@ -1,3 +1,7 @@
+import { config } from "../configEnv.js";
+
+console.log(config.API_BASE_URL)
+
 window.addEventListener('DOMContentLoaded', event => {
 
     // Toggle the side navigation
@@ -38,13 +42,10 @@ function openTab(evt, tabName) {
 
 //------------------------------- LE PROFIL ---------------------------------------//
 
-// Variable pour la base de l'API
-const API_BASE_URL = 'http://localhost:8080/api';
-
 // Fonction pour récupérer les informations de l'utilisateur
 async function fetchUserInfo() {
     try {
-        const response = await fetch(`${API_BASE_URL}/protected`, {
+        const response = await fetch(config.API_BASE_URL + config.API_PROTEC, {
             method: 'GET',
             credentials: 'include', // Inclure les cookies dans la requête
             headers: {
@@ -71,14 +72,10 @@ async function fetchUserInfo() {
 // Fonction pour afficher les informations de l'utilisateur dans le HTML
 function displayUserInfo(user) {
     document.querySelector('#userInfo').innerHTML = `
-        <p>Nom : ${user.username ? user.username : 'Non spécifié'}</p>
-        <p>Prénom : ${user.prenom ? user.prenom : 'Non spécifié'}</p>
-        <p>Nom de l'entreprise : ${user.nomEntreprise ? user.nomEntreprise : 'Non spécifié'}</p>
-        <p>Adresse : ${user.adresse ? user.adresse : 'Non spécifié'}</p>
-        <p>SIREN : ${user.siren ? user.siren : 'Non spécifique'}</p>
-        <p>SIRET : ${user.siret ? user.siret : 'Non spécifique'}</p>
-        <p>Mail : ${user.mail ? user.mail : 'Non spécifié'}</p>
-        <p>Téléphone : ${user.tel ? user.tel : 'Non spécifié'}</p>
+        <p><strong> Nom :</strong> ${user.username ? user.username : 'Non spécifié'}</p>
+        <p><strong> Prénom :</strong> ${user.prenom ? user.prenom : 'Non spécifié'}</p>
+        <p><strong> Mail :</strong> ${user.mail ? user.mail : 'Non spécifié'}</p>
+        <p><strong> Téléphone :</strong> ${user.tel ? user.tel : 'Non spécifié'}</p>
     `;
 
     document.querySelector('#userName').innerHTML = `
@@ -93,30 +90,6 @@ window.onload = fetchUserInfo;
 
 
 let userId = null; // Variable pour stocker l'ID de l'utilisateur
-
-// Fonction pour récupérer les informations de l'utilisateur
-async function fetchUserInfo() {
-    try {
-        const response = await fetch(`${API_BASE_URL}/protected`, {
-            method: 'GET',
-            credentials: 'include', // Inclure les cookies dans la requête
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données utilisateur');
-        }
-
-        const userData = await response.json();
-        userId = userData.id; // Assigne l'ID de l'utilisateur
-        displayUserInfo(userData);
-    } catch (error) {
-        console.error(error);
-        alert('Erreur lors de la récupération des informations utilisateur');
-    }
-}
 
 // Fonction pour modifier les informations utilisateur
 function editUserInfo() {
