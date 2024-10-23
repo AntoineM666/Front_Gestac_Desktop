@@ -1,6 +1,5 @@
+import { config } from "../configEnv.js";
 
-
-const APIURL = 'http://localhost:8080/api';
 // Sélection du formulaire et de l'élément pour afficher les messages
 const form = document.getElementById('registerForm');
 
@@ -8,19 +7,16 @@ const form = document.getElementById('registerForm');
 form.addEventListener('submit', (event) => {
   event.preventDefault();  // Empêche la soumission du formulaire classique
     const userData = {
+
   // Récupérer les données du formulaire
    nom : document.getElementById('nom').value,
    prenom : document.getElementById('prenom').value,
-   nomEntreprise : document.getElementById('nomEntreprise').value,
    mail : document.getElementById('email').value,
    plainPassword : document.getElementById('password').value,
    tel : document.getElementById('tel').value,
-   adresse : document.getElementById('adresse').value,
-   siret : document.getElementById('siret').value,
-   siren : document.getElementById('siren').value,
  };
 
- fetch(`${APIURL}/users`, {
+ fetch( config.API_BASE_URL + config.API_USER, {
    method: 'POST',
    headers: {
      'Content-Type': 'application/ld+json'
