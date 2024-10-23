@@ -59,7 +59,7 @@ async function fetchUserConnect() {
 // Fonction pour afficher les informations de l'utilisateur dans le HTML
 function displayUserConnect(user) {
     document.querySelector('#userName').innerHTML = `
-        ${user.username ? user.username : 'Non spécifié'} ${user.prenom ? user.prenom : 'Non spécifié'}
+        ${user.nom ? user.nom : 'Non spécifié'} ${user.prenom ? user.prenom : 'Non spécifié'}
         
     `;
 }
