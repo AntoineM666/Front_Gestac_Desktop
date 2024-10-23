@@ -100,17 +100,16 @@
 
             <div class="page-container">
             
-                <!-- Onglets placés au-dessus du conteneur -->
+                <!--------------------------------------- Onglets conteneur ------------------------------------------------->
                     <div class="tabs">
                         <button class="tablink active" onclick="openTab(event, 'templateFactures')">Template</button>
                         <button class="tablink" onclick="openTab(event, 'prestations')">Prestations</button>
                         <button class="tablink" onclick="openTab(event, 'clients')">Clients</button>
-                        <!-- <button class="tablink" onclick="openTab(event, 'devis')">Devis</button> -->
                     </div>
                     
-                <!-- Conteneur pour le contenu principal avec sidebar et contenu -->
+                <!-------------------------- Conteneur pour le contenu principal avec sidebar et contenu ---------------------->
                 <div class="main-content">
-                    <!-- Conteneur pour la banderole avec les informations utilisateur -->
+                    <!--------------------------  informations utilisateur ------------------>
                     <div class="sidebar" id="sideUser">
                         <div class="info" id="userInfo">
                             <p><strong>Nom :</strong> <span id="userNom"></span></p>
@@ -119,36 +118,30 @@
                             <p><strong>Téléphone :</strong> <span id="userTelephone"></span></p>
                         </div>
                         <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
+                    </div>
+
+                    <!---------------------------  society ---------------------------------------->
+                    <div class="sidebar" id="sideSociety">
+                        <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil" id="societyLogo">
+                        <div class="info" id="societyInfo">
+                            <p><strong>Nom de l'entreprise :</strong> <span id="societyName"></span></p>
+                            <p><strong>Adresse :</strong> <span id="societyAdresse"></span></p>
+                            <p><strong>N° SIREN :</strong> <span id="societySiren"></span></p>
+                            <p><strong>N° SIRET :</strong> <span id="societySiret"></span></p>
+                            <p><strong>Mail :</strong> <span id="societyMail"></span></p>
+                            <p><strong>Téléphone :</strong> <span id="societyTelephone"></span></p>
+                        </div>
+                        <button class="btn-edit" id="editButton" onclick="editSocietyInfo()">Éditer</button>
                         <button class="btn-change-logo" id="changeLogoButton" style="display: none;" onclick="triggerLogoInput()">Changer le logo</button>
                         <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" />
                     </div>
-
-                    <!-- Conteneur cadre société -->
-                    <div class="sidebar" id="sideSociety">
-                        <img src="../assets/svg/white.svg" alt="Logo" class="logoprofil" id="userLogo">
-                        <div class="info" id="societyInfo">
-                            <p><strong>Nom de l'entreprise :</strong> <span id="userEntreprise"></span></p>
-                            <p><strong>Adresse :</strong> <span id="userAdresse"></span></p>
-                            <p><strong>N° SIREN :</strong> <span id="userSiren"></span></p>
-                            <p><strong>N° SIRET :</strong> <span id="userSiret"></span></p>
-                            <p><strong>Mail :</strong> <span id="userMail"></span></p>
-                            <p><strong>Téléphone :</strong> <span id="userTelephone"></span></p>
-                        </div>
-                        <!-- <button class="btn-edit" id="editButton" onclick="editUserInfo()">Éditer</button>
-                        <button class="btn-change-logo" id="changeLogoButton" style="display: none;" onclick="triggerLogoInput()">Changer le logo</button>
-                        <input type="file" id="logoInput" style="display: none;" onchange="changeLogo()" /> -->
-                    </div>
                     
-                    <!-- Conteneur pour le contenu des factures/devis -->
+                    <!--------------------------- template des factures/devis ------------------->
                     <div class="content-container">
                         <div class="tabcontent" id="templateFactures">
                             <h2>Template de facture/devis</h2>
                             <p>Contenu des factures ici...</p>
                         </div>
-                        <!-- <div class="tabcontent" id="devis" style="display:none;">
-                            <h2>Devis</h2>
-                            <p>Contenu des devis ici...</p>
-                        </div> -->
 
                         <!------------------------------- Prestations ----------------------------->
                         <div class="tabcontent" id="prestations" style="display:none;">
@@ -303,7 +296,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
-    <!-- <script src="../js/scripts.js"></script> -->
     <script src="../js/profil.js" type="module"></script>
 </body>
 

@@ -1,6 +1,5 @@
 import { config } from "../configEnv.js";
 
-console.log(config.API_BASE_URL)
 
 window.addEventListener('DOMContentLoaded', event => {
 
@@ -72,14 +71,14 @@ async function fetchUserInfo() {
 // Fonction pour afficher les informations de l'utilisateur dans le HTML
 function displayUserInfo(user) {
     document.querySelector('#userInfo').innerHTML = `
-        <p><strong> Nom :</strong> ${user.username ? user.username : 'Non spécifié'}</p>
+        <p><strong> Nom :</strong> ${user.nom ? user.nom : 'Non spécifié'}</p>
         <p><strong> Prénom :</strong> ${user.prenom ? user.prenom : 'Non spécifié'}</p>
         <p><strong> Mail :</strong> ${user.mail ? user.mail : 'Non spécifié'}</p>
         <p><strong> Téléphone :</strong> ${user.tel ? user.tel : 'Non spécifié'}</p>
     `;
 
     document.querySelector('#userName').innerHTML = `
-        ${user.username ? user.username : 'Non spécifié'} ${user.prenom ? user.prenom : 'Non spécifié'}
+        ${user.nom ? user.nom : 'Non spécifié'} ${user.prenom ? user.prenom : 'Non spécifié'}
         
     `;
 }
@@ -92,25 +91,25 @@ window.onload = fetchUserInfo;
 let userId = null; // Variable pour stocker l'ID de l'utilisateur
 
 // Fonction pour modifier les informations utilisateur
-function editUserInfo() {
-    document.getElementById('changeLogoButton').style.display = 'block';
+window.editUserInfo = function() {
+    // document.getElementById('changeLogoButton').style.display = 'block';
     var infoDiv = document.getElementById('userInfo');
     var userInfo = infoDiv.querySelectorAll('p');
     userInfo.forEach(function (p) {
         var text = p.innerText.split(':');
-        var label = text[0]; 
-        var value = text[1] ? text[1].trim() : ''; 
+        var label = text[0];
+        var value = text[1] ? text[1].trim() : '';
         p.innerHTML = `${label}: <input type="text" value="${value}">`;
     });
 
     var editButton = document.getElementById('editButton');
     editButton.innerText = "Enregistrer";
     editButton.setAttribute("onclick", "saveUserInfo()");
-}
+};
+
 
 // Fonction pour enregistrer les informations utilisateur
-async function saveUserInfo() {
-    console.log("Bouton Enregistrer cliqué");
+window.saveUserInfo = async function() {
 
     if (!userId) {
         console.error("L'ID de l'utilisateur est introuvable.");
@@ -122,12 +121,8 @@ async function saveUserInfo() {
     const userInfoDiv = document.querySelector('#userInfo');
 
     const fields = [
-        'username', 
+        'nom', 
         'prenom', 
-        'nomEntreprise', 
-        'adresse', 
-        'siren', 
-        'siret', 
         'mail', 
         'tel'
     ];
@@ -144,7 +139,7 @@ async function saveUserInfo() {
     console.log('Données envoyées:', userInfo);
 
     try {
-        const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
+        const response = await fetch( config.API_BASE_URL + config.API_USER + `/${userId}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: {
@@ -174,11 +169,13 @@ async function saveUserInfo() {
     var editButton = document.getElementById('editButton');
     editButton.innerText = "Éditer";
     editButton.setAttribute("onclick", "editUserInfo()");
-}
+};
+
 
 // Appel initial pour récupérer les informations de l'utilisateur
 window.onload = fetchUserInfo;
 
+// Fonction pour changer logo entreprise
 function changeLogo() {
     var fileInput = document.getElementById('logoInput');
     var file = fileInput.files[0];
@@ -190,11 +187,14 @@ function changeLogo() {
 }
 
 
+//-------------------------------------SOCIETYS-------------------------------------------------//
+
+
+
 //-------------------------------------PRESTATIONS-------------------------------------------------//
 
 let isAdding = true; // Variable pour suivre l'état du bouton
 
-// Fonction pour ouvrir la pop-up des prestations
 // Fonction pour ouvrir la pop-up d'ajout de prestation
 function openPrestationsModal() {
     // Réinitialise les champs de la pop-up
