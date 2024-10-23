@@ -1,294 +1,15 @@
-import { config } from "../configEnv.js";
-
-
-window.addEventListener('DOMContentLoaded', event => {
-
-    // Toggle the side navigation
-    const sidebarToggle = document.body.querySelector('#sidebarToggle');
-    if (sidebarToggle) {
-        // Uncomment Below to persist sidebar toggle between refreshes
-        // if (localStorage.getItem('sb|sidebar-toggle') === 'true') {
-        //     document.body.classList.toggle('sb-sidenav-toggled');
-        // }
-        sidebarToggle.addEventListener('click', event => {
-            event.preventDefault();
-            document.body.classList.toggle('sb-sidenav-toggled');
-            localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-        });
-    }
-
-});
-
-function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-
-    // Hide all tab content
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";  
-    }
-
-    // Remove the "active" class from all tab links
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab and add an "active" class to the button that opened the tab
-    document.getElementById(tabName).style.display = "block";  
-    evt.currentTarget.className += " active";
-}
-
-//------------------------------- LE PROFIL ---------------------------------------//
-
-// Fonction pour récupérer les informations de l'utilisateur
-async function fetchUserInfo() {
-    try {
-        const response = await fetch(config.API_BASE_URL + config.API_PROTEC, {
-            method: 'GET',
-            credentials: 'include', // Inclure les cookies dans la requête
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des données utilisateur');
-        }
-
-        const userData = await response.json();
-
-        // Stocke l'ID de l'utilisateur pour les futures mises à jour
-        userId = userData.id; // Assigne l'ID de l'utilisateur à la variable globale
-        
-        displayUserInfo(userData); // Affiche les informations de l'utilisateur
-    } catch (error) {
-        console.error(error);
-        alert('Erreur lors de la récupération des informations utilisateur');
-    }
-}
-
-// Fonction pour afficher les informations de l'utilisateur dans le HTML
-function displayUserInfo(user) {
-    document.querySelector('#userInfo').innerHTML = `
-        <p><strong> Nom :</strong> ${user.nom ? user.nom : 'Non spécifié'}</p>
-        <p><strong> Prénom :</strong> ${user.prenom ? user.prenom : 'Non spécifié'}</p>
-        <p><strong> Mail :</strong> ${user.mail ? user.mail : 'Non spécifié'}</p>
-        <p><strong> Téléphone :</strong> ${user.tel ? user.tel : 'Non spécifié'}</p>
-    `;
-
-    document.querySelector('#userName').innerHTML = `
-        ${user.nom ? user.nom : 'Non spécifié'} ${user.prenom ? user.prenom : 'Non spécifié'}
-        
-    `;
-}
-
-// Appelle la fonction lors du chargement de la page
-window.onload = fetchUserInfo;
-
-
-
-let userId = null; // Variable pour stocker l'ID de l'utilisateur
-
-// Fonction pour modifier les informations utilisateur
-window.editUserInfo = function() {
-    // document.getElementById('changeLogoButton').style.display = 'block';
-    var infoDiv = document.getElementById('userInfo');
-    var userInfo = infoDiv.querySelectorAll('p');
-    userInfo.forEach(function (p) {
-        var text = p.innerText.split(':');
-        var label = text[0];
-        var value = text[1] ? text[1].trim() : '';
-        p.innerHTML = `${label}: <input type="text" value="${value}">`;
-    });
-
-    var editButton = document.getElementById('editButton');
-    editButton.innerText = "Enregistrer";
-    editButton.setAttribute("onclick", "saveUserInfo()");
-};
-
-
-// Fonction pour enregistrer les informations utilisateur
-window.saveUserInfo = async function() {
-
-    if (!userId) {
-        console.error("L'ID de l'utilisateur est introuvable.");
-        alert('Impossible de mettre à jour les informations, ID utilisateur manquant');
-        return;
-    }
-
-    const userInfo = {};
-    const userInfoDiv = document.querySelector('#userInfo');
-
-    const fields = [
-        'nom', 
-        'prenom', 
-        'mail', 
-        'tel'
-    ];
-
-    fields.forEach((field, index) => {
-        const inputElement = userInfoDiv.querySelector(`p:nth-child(${index + 1}) input`);
-        if (inputElement) {
-            userInfo[field] = inputElement.value;
-        } else {
-            console.warn(`Champ d'entrée pour ${field} introuvable.`);
-        }
-    });
-
-    console.log('Données envoyées:', userInfo);
-
-    try {
-        const response = await fetch( config.API_BASE_URL + config.API_USER + `/${userId}`, {
-            method: 'PATCH',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/merge-patch+json'
-            },
-            body: JSON.stringify(userInfo)
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Erreur lors de la mise à jour des données :', errorData);
-            alert(`Erreur: ${errorData['hydra:description'] || 'Erreur lors de la mise à jour des informations utilisateur'}`);
-            return;
-        }
-
-        alert('Les informations utilisateur ont été mises à jour avec succès !');
-        
-        // Réafficher les informations mises à jour
-        displayUserInfo(userInfo);
-
-    } catch (error) {
-        console.error('Erreur lors de la requête :', error);
-        alert('Erreur de connexion au serveur.');
-    }
-
-    // Remet le texte du bouton à "Éditer"
-    var editButton = document.getElementById('editButton');
-    editButton.innerText = "Éditer";
-    editButton.setAttribute("onclick", "editUserInfo()");
-};
-
-
-// Appel initial pour récupérer les informations de l'utilisateur
-window.onload = fetchUserInfo;
-
-// Fonction pour changer logo entreprise
-function changeLogo() {
-    var fileInput = document.getElementById('logoInput');
-    var file = fileInput.files[0];
-    var reader = new FileReader();
-    reader.onload = function (e) {
-        document.getElementById('userLogo').src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-}
-
-
-//-------------------------------------SOCIETYS-------------------------------------------------//
-
-
-
-//-------------------------------------PRESTATIONS-------------------------------------------------//
-
-let isAdding = true; // Variable pour suivre l'état du bouton
-
-// Fonction pour ouvrir la pop-up d'ajout de prestation
-function openPrestationsModal() {
-    // Réinitialise les champs de la pop-up
-    document.getElementById('modalPrestationsDescription').value = '';
-    document.getElementById('modalPrestationsPUHT').value = '';
-    document.getElementById('modalPrestationsTVA').value = '';
-
-    // Affiche la modal
-    document.getElementById('prestationsModal').style.display = 'block';
-}
-
-// Fonction pour fermer la pop-up
-function closePrestationsModal() {
-    document.getElementById('prestationsModal').style.display = 'none';
-}
-
-// Fonction pour ajouter une prestation à partir de la pop-up
-function addPrestationsFromModal() {
-    const description = document.getElementById('modalPrestationsDescription').value;
-    const puht = document.getElementById('modalPrestationsPUHT').value;
-    const tva = document.getElementById('modalPrestationsTVA').value;
-
-    // Ajoute la prestation au tableau
-    const table = document.getElementById('prestationsTable').getElementsByTagName('tbody')[0];
-    const newRow = table.insertRow();
-    newRow.innerHTML = `
-        <td>${description}</td>
-        <td>${puht}</td>
-        <td>${tva}</td>
-        <td class="table-actions">
-            <span class="material-icons" style="cursor: pointer; color: green;" onclick="editRow(this)">edit</span>
-            <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeRow(this)">backspace</span>
-        </td>
-    `;
-
-    // Ferme la pop-up
-    closePrestationsModal();
-}
-
-// Fonction pour supprimer une ligne
-function removeRow(button) {
-    const row = button.closest('tr');
-    row.remove();
-}
-
-// Fonction pour éditer une ligne validée
-function editRow(button) {
-    const row = button.closest('tr');
-
-    // Récupère les valeurs validées
-    const descriptionValue = row.cells[0].innerText;
-    const puhtValue = row.cells[1].innerText;
-    const tvaValue = row.cells[2].innerText;
-
-    // Remplace les valeurs validées par des inputs
-    row.cells[0].innerHTML = `<input type="text" value="${descriptionValue}">`;
-    row.cells[1].innerHTML = `<input type="number" value="${puhtValue}">`;
-    row.cells[2].innerHTML = `<input type="number" value="${tvaValue}">`;
-
-    // Remplace les icônes par un bouton de validation
-    row.cells[3].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validateRow(this)">check_circle</span>`;
-}
-
-// Fonction pour valider une ligne
-function validateRow(button) {
-    const row = button.closest('tr');
-
-    const descriptionInput = row.cells[0].querySelector('input').value;
-    const puhtInput = row.cells[1].querySelector('input').value;
-    const tvaInput = row.cells[2].querySelector('input').value;
-
-    // Remplace les inputs par les valeurs validées
-    row.cells[0].innerText = descriptionInput;
-    row.cells[1].innerText = puhtInput;
-    row.cells[2].innerText = tvaInput;
-
-    // Remplace l'icône de validation par les icônes d'édition et de suppression
-    row.cells[3].innerHTML = `
-        <span class="material-icons" style="cursor: pointer; color: green;" onclick="editRow(this)">edit</span>
-        <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeRow(this)">backspace</span>
-    `;
-}
-
+import { config } from "../../configEnv.js";
 
 //--------------------------------- Portefeuille Clients -------------------------------//
 
 // Fonction pour afficher le tableau correspondant
-function showClientTable(type) {
+window.showClientTable = function(type) {
     document.getElementById('particulierTable').style.display = type === 'particulier' ? 'block' : 'none';
     document.getElementById('professionnelTable').style.display = type === 'professionnel' ? 'block' : 'none';
 }
 
 // Fonction pour ajouter une ligne pour les clients particuliers
-function addPartRow() {
+window.addPartRow = function() {
     const table = document.getElementById('particulierClientTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();
 
@@ -304,7 +25,7 @@ function addPartRow() {
 }
 
 // Fonction pour valider une ligne pour les clients particuliers
-function validatePartRow(button) {
+window.validatePartRow = function(button) {
     const row = button.closest('tr');
 
     const nameValue = row.cells[0].querySelector('input').value;
@@ -325,7 +46,7 @@ function validatePartRow(button) {
 }
 
 // Fonction pour ajouter une ligne pour les clients professionnels
-function addProRow() {
+window.addProRow = function() {
     const table = document.getElementById('professionnelClientTable').getElementsByTagName('tbody')[0];
     const newRow = table.insertRow();
 
@@ -344,7 +65,7 @@ function addProRow() {
 }
 
 // Fonction pour valider une ligne pour les clients professionnels
-function validateProRow(button) {
+window.validateProRow = function(button) {
     const row = button.closest('tr');
 
     const nameValue = row.cells[0].querySelector('input').value;
@@ -370,7 +91,7 @@ function validateProRow(button) {
         <span class="material-icons" style="cursor: pointer; color: red;" onclick="removeProRow(this)">backspace</span>`;
 }
 
-function editPartRow(button) {
+window.editPartRow = function(button) {
     const row = button.closest('tr');
 
     const nameValue = row.cells[0].innerText;
@@ -390,13 +111,13 @@ function editPartRow(button) {
     row.cells[5].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validatePartRow(this)">check_circle</span>`;
 }
 
-function removePartRow(button) {
+window.removePartRow = function(button) {
     const row = button.closest('tr');
     row.remove();
 }
 
 
-function editProRow(button) {
+window.editProRow = function(button) {
     const row = button.closest('tr');
 
     const nameValue = row.cells[0].innerText;
@@ -422,14 +143,14 @@ function editProRow(button) {
     row.cells[8].innerHTML = `<span class="material-icons" style="cursor: pointer; color: green;" onclick="validateProRow(this)">check_circle</span>`;
 }
 
-function removeProRow(button) {
+window.removeProRow = function(button) {
     const row = button.closest('tr');
     row.remove();
 }
 
 
 // Fonction pour ouvrir la pop-up d'ajout de client
-function openClientModal(type) {
+window.openClientModal = function(type) {
     console.log(`Opening modal for ${type} client`);
     document.getElementById('modalClientType').value = type;
 
@@ -455,12 +176,12 @@ function openClientModal(type) {
 
 
 // Fonction pour fermer la pop-up
-function closeClientModal() {
+window.closeClientModal = function() {
     document.getElementById('clientModal').style.display = 'none';
 }
 
 // Fonction pour ajouter un client à partir de la pop-up
-function addClientFromModal() {
+window.addClientFromModal = function() {
     const type = document.getElementById('modalClientType').value;
     
     if (type === 'particulier') {
