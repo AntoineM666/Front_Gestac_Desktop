@@ -1,12 +1,8 @@
 import { config } from "../../configEnv.js";
 
 //-------------------------------------SOCIETYS-------------------------------------------------//
-document.addEventListener('DOMContentLoaded', () => {
-    fetchUserInfo();
-});
 
 window.loadSocieties = async function(societyURIs) {
-    console.log('Chargement des sociétés avec URIs:', societyURIs);
     const fetchPromises = societyURIs.map(async (uri) => {
         const response = await fetch(config.API_BASE_URL + uri, {
             method: 'GET',
@@ -50,7 +46,6 @@ function displayFirstSociety(society) {
 function createSocietyContainer(society) {
     // Sélectionne le conteneur de base
     const baseContainer = document.querySelector('#sideSociety');
-    console.log('baseContainer:', baseContainer);
 
     if (!baseContainer) {
         console.error('Conteneur de base introuvable');
@@ -61,7 +56,7 @@ function createSocietyContainer(society) {
     const newContainer = baseContainer.cloneNode(true);
 
     // Modifie l'ID pour que chaque conteneur soit unique
-    newContainer.id = `sideSociety`;
+    // newContainer.id = `sideSociety`;
     newContainer.class = `sidebarSociety`;
 
     // Met à jour les éléments à l'intérieur du conteneur
@@ -75,6 +70,86 @@ function createSocietyContainer(society) {
     baseContainer.parentNode.appendChild(newContainer);
 }
 
+
+
+// Fonction pour modifier les informations utilisateur
+window.editsocietyInfo = function() {
+    var infoDiv = document.getElementById('societyInfo');
+    var societyInfo = infoDiv.querySelectorAll('p');
+    societyInfo.forEach(function (p) {
+        var text = p.innerText.split(':');
+        var label = text[0];
+        var value = text[1] ? text[1].trim() : '';
+        p.innerHTML = `${label}: <input type="text" value="${value}">`;
+    });
+
+    var editsocietyButton = document.getElementById('editSocietyButton');
+    editsocietyButton.innerText = "Enregistrer";
+    editsocietyButton.setAttribute("onclick", "saveSocietyInfo()");
+};
+
+// Fonction pour enregistrer les informations utilisateur
+window.savesocietyInfo = async function() {
+
+    if (!societyId) {
+        console.error("L'ID de l'utilisateur est introuvable.");
+        alert('Impossible de mettre à jour les informations, ID utilisateur manquant');
+        return;
+    }
+
+    const societyInfo = {};
+    const societyInfoDiv = document.querySelector('#societyInfo');
+
+    const fields = [
+        'nom', 
+        'prenom', 
+        'mail', 
+        'tel'
+    ];
+
+    fields.forEach((field, index) => {
+        const inputElement = societyInfoDiv.querySelector(`p:nth-child(${index + 1}) input`);
+        if (inputElement) {
+            societyInfo[field] = inputElement.value;
+        } else {
+            console.warn(`Champ d'entrée pour ${field} introuvable.`);
+        }
+    });
+
+    console.log('Données envoyées:', societyInfo);
+
+    try {
+        const response = await fetch( config.API_BASE_URL + uri, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/merge-patch+json'
+            },
+            body: JSON.stringify(societyInfo)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error('Erreur lors de la mise à jour des données :', errorData);
+            alert(`Erreur: ${errorData['hydra:description'] || 'Erreur lors de la mise à jour des informations utilisateur'}`);
+            return;
+        }
+
+        alert('Les informations utilisateur ont été mises à jour avec succès !');
+        
+        // Réafficher les informations mises à jour
+        displaySocietyInfo(societyInfo);
+
+    } catch (error) {
+        console.error('Erreur lors de la requête :', error);
+        alert('Erreur de connexion au serveur.');
+    }
+
+    // Remet le texte du bouton à "Éditer"
+    var editSocietyButton = document.getElementById('editSocietyButton');
+    editSocietyButton.innerText = "Éditer";
+    editSocietyButton.setAttribute("onclick", "editSocietyInfo()");
+};
 // Fonction pour changer logo entreprise
 window.changeLogo = function() {
     var fileInput = document.getElementById('logoInput');
