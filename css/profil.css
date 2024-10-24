@@ -34,6 +34,7 @@ body {
 #sideUser {
     background-color: #343a40;
     box-shadow: 5px 0 5px 0 #ccc;
+    color: #ccc;
 }
 
 #sideSociety {
@@ -46,7 +47,7 @@ body {
 }
 
 #userInfo {
-    margin-top: 3.5em;
+    margin-top: 5.5em;
     color: #ccc;
 }
 
@@ -225,16 +226,16 @@ input {
 
 button {
     grid-column: span 2; /* Le bouton occupe toute la largeur de la pop-up */
-    padding: 10px 20px;
-    background-color: #007BFF;
+    background-color: #32a5e8;
     color: white;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
     text-align: center;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #229de5;
 }
 
 h3 {
