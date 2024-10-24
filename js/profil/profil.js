@@ -73,7 +73,6 @@ async function fetchUserInfo() {
 // Fonction pour afficher les informations de l'utilisateur dans le HTML
 function displayUserInfo(user) {
     document.querySelector('#userInfo').innerHTML = `
-        <p style="text-align: center; margin-bottom: 3em;"><strong> PROFIL</strong></p>
         <p><strong> Nom :</strong> ${user.nom ? user.nom : 'Non spécifié'}</p>
         <p><strong> Prénom :</strong> ${user.prenom ? user.prenom : 'Non spécifié'}</p>
         <p><strong> Mail :</strong> ${user.mail ? user.mail : 'Non spécifié'}</p>
