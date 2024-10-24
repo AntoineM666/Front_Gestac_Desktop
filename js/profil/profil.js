@@ -57,8 +57,13 @@ async function fetchUserInfo() {
 
         // Stocke l'ID de l'utilisateur pour les futures mises à jour
         userId = userData.id; // Assigne l'ID de l'utilisateur à la variable globale
-        
+
         displayUserInfo(userData); // Affiche les informations de l'utilisateur
+
+        // Récupère les URIs des sociétés de l'utilisateur connecté
+        const societyURIs = userData.society.map(society => society.uri);
+        loadSocieties(societyURIs); // Appel de la fonction pour charger les sociétés
+
     } catch (error) {
         console.error(error);
         alert('Erreur lors de la récupération des informations utilisateur');
@@ -68,6 +73,7 @@ async function fetchUserInfo() {
 // Fonction pour afficher les informations de l'utilisateur dans le HTML
 function displayUserInfo(user) {
     document.querySelector('#userInfo').innerHTML = `
+        <p style="text-align: center; margin-bottom: 3em;"><strong> PROFIL</strong></p>
         <p><strong> Nom :</strong> ${user.nom ? user.nom : 'Non spécifié'}</p>
         <p><strong> Prénom :</strong> ${user.prenom ? user.prenom : 'Non spécifié'}</p>
         <p><strong> Mail :</strong> ${user.mail ? user.mail : 'Non spécifié'}</p>
@@ -93,9 +99,9 @@ window.editUserInfo = function() {
         p.innerHTML = `${label}: <input type="text" value="${value}">`;
     });
 
-    var editButton = document.getElementById('editButton');
-    editButton.innerText = "Enregistrer";
-    editButton.setAttribute("onclick", "saveUserInfo()");
+    var editUserButton = document.getElementById('editUserButton');
+    editUserButton.innerText = "Enregistrer";
+    editUserButton.setAttribute("onclick", "saveUserInfo()");
 };
 
 // Fonction pour enregistrer les informations utilisateur
@@ -156,7 +162,7 @@ window.saveUserInfo = async function() {
     }
 
     // Remet le texte du bouton à "Éditer"
-    var editButton = document.getElementById('editButton');
-    editButton.innerText = "Éditer";
-    editButton.setAttribute("onclick", "editUserInfo()");
+    var editUserButton = document.getElementById('editUserButton');
+    editUserButton.innerText = "Éditer";
+    editUserButton.setAttribute("onclick", "editUserInfo()");
 };
